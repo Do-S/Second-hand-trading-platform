@@ -10,7 +10,7 @@
 前端：vue vue-router 
 后端：express 
 数据库：mongodb 
-使用的技术：JWT 非对称加密技术 echart...
+使用的技术：JWT 非对称加密 echart...
 ```
 
 >功能
