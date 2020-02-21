@@ -6,6 +6,7 @@ exports.addPost = function (title, content, userId, callback) {
         userId: userId,
         title: title,
         content: content,
+        date: new Date()
     });
     console.log(new Date())
     savePost.save(function (err) {
@@ -78,6 +79,7 @@ exports.addComment = function (postId, userId, comment, callback) {
         userId: userId,
         postId: postId,
         content: comment,
+        date: new Date()
     });
     saveComment.save(function (err) {
         if (err) {
@@ -163,6 +165,7 @@ exports.addCollect = function (userId, postId, callback) {
     const saveCollect = new db.collect({
         userId: userId,
         postId: postId,
+        date: new Date()
     });
     saveCollect.save(function (err) {
         if (err) {

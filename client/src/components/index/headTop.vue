@@ -118,16 +118,24 @@ export default {
       this.$router.push("/login");
     },
     goodsSearch() {
-      this.$router.push({
-        path: "/goodsSearch",
-        query: { id: this.goodsData }
-      });
+      if (this.goodsData != "") {
+        this.$router.push({
+          path: "/goodsSearch",
+          query: { id: this.goodsData }
+        });
+      } else {
+        this.$Message.warning("请输入搜索内容");
+      }
     },
     postSearch() {
-      this.$router.push({
-        path: "/postSearch",
-        query: { id: this.postData }
-      });
+      if (this.goodsData != "") {
+        this.$router.push({
+          path: "/postSearch",
+          query: { id: this.postData }
+        });
+      } else {
+        this.$Message.warning("请输入搜索内容");
+      }
     }
   }
 };

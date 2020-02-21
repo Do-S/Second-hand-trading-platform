@@ -121,14 +121,15 @@ export default {
           id: this.$getUser.userId
         });
         this.userList = data.data;
-        console.log(data.data);
+        this.userList.birthday = new Date(
+          this.userList.birthday.toLocaleString()
+        );
       } catch (error) {
         console.error(error);
       }
     },
     async submit() {
       try {
-        // console.log(this.userList);
         let data = await this.$http.post("/api/user/updateUser", {
           userId: this.$getUser.userId,
           userList: this.userList

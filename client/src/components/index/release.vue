@@ -33,7 +33,7 @@
           <Input
             v-model="commodityData.price"
             placeholder="开个价"
-            type="number"
+            prefix="logo-usd"
             size="large"
             style="width: 100px"
           />

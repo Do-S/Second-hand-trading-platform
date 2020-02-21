@@ -1,5 +1,6 @@
 var db = require('../models/db');
 
+//添加商品
 exports.setGoods = function (commodityData, userId, callback) {
     const saveGoods = new db.goods({
         userId: userId,
@@ -7,7 +8,8 @@ exports.setGoods = function (commodityData, userId, callback) {
         price: commodityData.price,
         introduction: commodityData.content,
         mail: commodityData.mail,
-        old: commodityData.old
+        old: commodityData.old,
+        date: new Date()
     });
     saveGoods.save(function (err) {
         if (err) {
@@ -22,6 +24,7 @@ exports.setGoods = function (commodityData, userId, callback) {
     })
 };
 
+//添加商品图片
 exports.setGoodsImg = function (imgId, filePath, callback) {
     const saveGoodsImg = new db.img({
         goodsId: imgId,
@@ -35,14 +38,15 @@ exports.setGoodsImg = function (imgId, filePath, callback) {
     })
 };
 
+//获取商品
 exports.getGoods = function (page, callback) {
     db.goods.aggregate([
         {
             $match: { status: 1 }
         },
+        { $sort: { date: -1 } },
         { $skip: page },
         { $limit: 10 },
-        { $sort: { date: -1 } },
         {
             $lookup:
             {
@@ -126,6 +130,7 @@ exports.addGoodsCar = function (goodsId, userId, callback) {
     const saveGoodsCar = new db.car({
         goodsId: goodsId,
         userId: userId,
+        date: new Date()
     });
     saveGoodsCar.save(function (err) {
         if (err) {
@@ -165,6 +170,7 @@ exports.addGoodsBuy = function (goodsId, userId, callback) {
             goodsId: goodsId,
             userId: userId,
             sellerId: sellerId,
+            date: new Date()
         });
         saveGoodsBuy.save(function (err) {
             if (err) {
@@ -719,7 +725,8 @@ exports.addReport = function (reporter, reported, goodsId, content, callback) {
         reporter: reporter,
         reported: reported,
         goodsId: goodsId,
-        content: content
+        content: content,
+        date: new Date()
     });
     saveReport.save(function (err) {
         if (err) {

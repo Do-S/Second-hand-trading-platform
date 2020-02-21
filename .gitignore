@@ -1,5 +1,6 @@
 .DS_Store
 node_modules
+goodsImg
 /dist
 
 # local env files

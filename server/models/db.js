@@ -28,8 +28,7 @@ const userSchema = new mongoose.Schema({
         default: 1
     },
     date: {
-        type: Date,
-        default: Date.now()
+        type: Date
     },
     introduction: {
         type: String,
@@ -48,8 +47,7 @@ const reportSchema = new mongoose.Schema({
         default: 0
     },
     date: {
-        type: Date,
-        default: Date.now()
+        type: Date
     },
 }, { collection: 'report' })
 
@@ -72,8 +70,7 @@ const goodsSchema = new mongoose.Schema({
     mail: Boolean,
     old: Number,
     date: {
-        type: Date,
-        default: Date.now()
+        type: Date
     },
     status: {
         type: Number,
@@ -96,8 +93,7 @@ const carSchema = new mongoose.Schema({
     goodsId: String,
     userId: String,
     date: {
-        type: Date,
-        default: Date.now()
+        type: Date
     },
 }, { collection: 'car' })
 
@@ -111,8 +107,7 @@ const buySchema = new mongoose.Schema({
         default: 1
     },
     date: {
-        type: Date,
-        default: Date.now()
+        type: Date
     },
 }, { collection: 'buy' })
 
@@ -126,8 +121,7 @@ const postSchema = new mongoose.Schema({
     title: String,
     content: String,
     date: {
-        type: Date,
-        default: Date.now()
+        type: Date
     },
     count: {
         type: Number,
@@ -141,8 +135,7 @@ const commentSchema = new mongoose.Schema({
     postId: String,
     content: String,
     date: {
-        type: Date,
-        default: Date.now()
+        type: Date
     },
 }, { collection: 'comment' })
 
@@ -151,8 +144,7 @@ const collectSchema = new mongoose.Schema({
     postId: String,
     userId: String,
     date: {
-        type: Date,
-        default: Date.now()
+        type: Date
     },
 }, { collection: 'collect' })
 

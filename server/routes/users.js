@@ -218,7 +218,6 @@ router.post('/changePassword', function (req, res, next) {
 router.post('/getUserById', function (req, res, next) {
   let id = req.body.id;
   user.getUserById(id, function (result) {
-    console.log(result);
     res.json(result);
   })
 })
@@ -227,7 +226,6 @@ router.post('/getUserById', function (req, res, next) {
 router.post('/updateUser', function (req, res, next) {
   let userId = req.body.userId;
   let userList = req.body.userList;
-  console.log(userList);
   user.updateUserById(userId, userList, function (err) {
     if (err) {
       const data = {

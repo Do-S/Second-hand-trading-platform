@@ -242,6 +242,7 @@ export default {
               height: 100%;
               display: flex;
               justify-content: center;
+              overflow: hidden;
               img {
                 height: 100%;
               }
@@ -258,6 +259,7 @@ export default {
               display: flex;
               justify-content: center;
               margin-left: 20px;
+              overflow: hidden;
               img {
                 height: 100%;
               }

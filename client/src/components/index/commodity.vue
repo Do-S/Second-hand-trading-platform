@@ -3,9 +3,12 @@
     <div class="lists">
       <div v-for="(item,index) in commodityData" :key="index" class="list">
         <div class="commPic">
-          <router-link :to="{ name: 'goodsDetails',params: { id: item._id }}">
+          <!-- <router-link :to="{ name: 'goodsDetails',params: { id: item._id }}">
             <img :src="item.img[0].url" :alt="index" />
-          </router-link>
+          </router-link>-->
+          <a @click="hrefDetail(item._id )">
+            <img :src="item.img[0].url" :alt="index" />
+          </a>
         </div>
         <div class="message">
           <div class="goodsName">
@@ -33,7 +36,17 @@ export default {
   },
   props: ["commodityData"],
   created() {},
-  methods: {}
+  methods: {
+    hrefDetail(id) {
+      let newpage = this.$router.resolve({
+        name: "goodsDetails",
+        params: {
+          id: id
+        }
+      });
+      window.open(newpage.href, "_blank");
+    }
+  }
 };
 </script>
 

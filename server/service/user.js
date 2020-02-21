@@ -14,13 +14,14 @@ exports.getUser = function (mail, callback) {
 exports.setUser = function (mail, password, callback) {
     const saveUser = new db.user({
         mail: mail,
-        password: password
+        password: password,
+        date: new Date()
     });
     saveUser.save(function (err) {
         if (err) {
             console.error(err);
         }
-        db.goods.updateOne({ _id: saveUser._id }, { $set: { userId: saveUser._id } }, function (err) {
+        db.user.updateOne({ _id: saveUser._id }, { $set: { userId: saveUser._id } }, function (err) {
             if (err) {
                 console.error(err);
             }
@@ -130,6 +131,8 @@ exports.updateAvatar = function (userId, path, callback) {
 
 //根据用户id更新用户信息
 exports.updateUserById = function (userId, userList, callback) {
+    console.log(userList);
+    console.log(userId);
     db.user.update({ userId: userId }, {
         $set: {
             nickname: userList.nickname,
