@@ -188,11 +188,35 @@ exports.addGoodsBuy = function (goodsId, userId, callback) {
 
 //根据用户id查找购物车信息
 exports.getGoodsCar = function (userId, callback) {
-    db.car.find({ userId: userId }, function (err, docs) {
+    db.car.aggregate([
+        { $match: { 'userId': userId } },
+        { $sort: { date: -1 } },
+        {
+            $lookup:
+            {
+                from: "goods",
+                localField: "goodsId",
+                foreignField: "goodsId",
+                as: "goods"
+            }
+        },
+        {
+            $lookup:
+            {
+                from: "img",
+                localField: "goodsId",
+                foreignField: "goodsId",
+                as: "img"
+            }
+        },
+        { $unwind: "$goods" },
+        // { $unwind: "$img" }
+    ]).exec(function (err, docs) {
         if (err) {
-            console.error(err);
+            if (callback) callback(err);
+        } else {
+            if (callback) callback(docs);
         }
-        return callback(docs);
     })
 }
 
@@ -243,6 +267,7 @@ exports.getMyRelease = function (userId, callback) {
             }
         },
         { $match: { 'inventory_docs': [], 'userId': userId } },
+        { $sort: { date: -1 } },
         // { $unwind: "$inventory_docs" },
         // { $unwind: "$img" }
     ]).exec(function (err, docs) {
@@ -402,7 +427,7 @@ exports.getGoodsBuyByUserId = function (userId, callback) {
     })
 }
 
-//
+//批量修改交易记录状态值
 exports.markAllBuy = function (userId, callback) {
     db.buy.update(
         { sellerId: userId },
@@ -416,7 +441,7 @@ exports.markAllBuy = function (userId, callback) {
         });
 }
 
-//
+//修改交易记录状态值
 exports.markBuyById = function (id, callback) {
     db.buy.updateOne({ _id: id }, { $set: { status: 0 } }, function (err) {
         if (err) {
@@ -426,7 +451,7 @@ exports.markBuyById = function (id, callback) {
     });
 }
 
-//
+//获取交易
 exports.getMarkBuyCount = function (userId, callback) {
     db.buy.find({ sellerId: userId, status: 1 }).count(function (err, count) {
         if (err) {

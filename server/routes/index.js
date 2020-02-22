@@ -23,6 +23,8 @@ router.get('/', function (req, res, next) {
   res.type('html');
   res.render('index', { title: 'Express' });
 });
+
+//添加商品
 router.post('/release', function (req, res, next) {
   let commodityData = req.body.commodityData;
   let userId = req.body.userId;
@@ -42,6 +44,8 @@ router.post('/release', function (req, res, next) {
     res.json(data);
   })
 });
+
+//接收商品图片
 router.post('/uploadImg', upload.array("file"), function (req, res, next) {
   let imgId = req.body.id;
   for (var i = 0; i < req.files.length; i++) {
@@ -68,12 +72,16 @@ router.post('/uploadImg', upload.array("file"), function (req, res, next) {
     })
   }
 });
+
+//首页获取商品
 router.get('/getGoods', function (req, res, next) {
   let page = req.query.page;
   goods.getGoods(+page, function (result) {
     res.json(result);
   })
 });
+
+//获取上架商品数量
 router.get('/getGoodsCount', function (req, res, next) {
   goods.getGoodsCount(function (count) {
     if (count) {
@@ -83,6 +91,8 @@ router.get('/getGoodsCount', function (req, res, next) {
     }
   })
 })
+
+//根据商品id获取商品信息
 router.get('/getGoodsById', function (req, res, next) {
   let goodsId = req.query.goodsId;
   goods.getGoodsById(goodsId, function (result) {
@@ -110,6 +120,8 @@ router.get('/getGoodsById', function (req, res, next) {
     }
   })
 })
+
+//添加购物车
 router.get('/addGoodsCar', function (req, res, next) {
   let goodsId = req.query.goodsId;
   let userId = req.query.userId;
@@ -138,6 +150,8 @@ router.get('/addGoodsCar', function (req, res, next) {
     }
   })
 })
+
+//添加商品交易信息
 router.get('/addGoodsBuy', function (req, res, next) {
   let goodsId = req.query.goodsId;
   let userId = req.query.userId;
@@ -166,6 +180,8 @@ router.get('/addGoodsBuy', function (req, res, next) {
     }
   })
 });
+
+//批量添加商品交易信息
 router.get('/addGoodsBuyList', function (req, res, next) {
   let carIdList = req.query.carIdList;
   let userId = req.query.userId;
@@ -199,28 +215,16 @@ router.get('/addGoodsBuyList', function (req, res, next) {
     })
   }
 });
+
+//根据用户信息获取购物车商品信息
 router.get('/getGoodsCar', function (req, res, next) {
   let userId = req.query.userId;
   goods.getGoodsCar(userId, function (result) {
-    var lists = [];
-    if (result.length != 0) {
-      for (let i = 0; i < result.length; i++) {
-        goods.getGoodsById(result[i].goodsId, function (goodsData) {
-          goods.getGoodsImg(result[i].goodsId, function (imgData) {
-            var list = goodsData.toObject();
-            list.url = imgData.url;
-            lists.push(list)
-            if (lists.length == result.length) {
-              res.send(lists);
-            }
-          })
-        })
-      }
-    } else {
-      res.send(lists);
-    }
+    res.json(result);
   })
 })
+
+//删除购物车商品
 router.get('/delCarById', function (req, res, next) {
   let userId = req.query.userId;
   let goodsId = req.query.goodsId;
@@ -239,6 +243,8 @@ router.get('/delCarById', function (req, res, next) {
     res.json(data);
   })
 })
+
+//批量删除购物车商品
 router.get('/delCarByIdList', function (req, res, next) {
   let userId = req.query.userId;
   let carIdList = req.query.carIdList;
@@ -257,12 +263,16 @@ router.get('/delCarByIdList', function (req, res, next) {
     res.json(data);
   })
 })
+
+//根绝用户id获取发布商品信息
 router.get('/getMyRelease', function (req, res, next) {
   let userId = req.query.userId;
   goods.getMyRelease(userId, function (result) {
     res.json(result);
   })
 })
+
+//修改商品状态
 router.get('/updateStatus', function (req, res, next) {
   let goodsId = req.query.goodsId;
   let status = req.query.status;
@@ -291,6 +301,8 @@ router.get('/updateStatus', function (req, res, next) {
     }
   })
 })
+
+//更新商品信息
 router.post('/editGoods', function (req, res, next) {
   let commodityData = req.body.commodityData;
   let goodsId = req.body.goodsId;
@@ -309,6 +321,8 @@ router.post('/editGoods', function (req, res, next) {
     res.json(data);
   })
 })
+
+//删除商品图片
 router.get('/delGoodsImg', function (req, res, next) {
   let goodsId = req.query.goodsId;
   goods.delGoodsImg(goodsId, function (err) {
@@ -326,6 +340,8 @@ router.get('/delGoodsImg', function (req, res, next) {
     res.json(data);
   })
 })
+
+//根据商品id删除商品
 router.get('/delGoodsById', function (req, res, next) {
   let goodsId = req.query.goodsId;
   goods.getGoodsBuyById(goodsId, function (result) {
@@ -353,18 +369,24 @@ router.get('/delGoodsById', function (req, res, next) {
     }
   })
 })
+
+//获取售卖成功的商品
 router.get('/getSuccessSale', function (req, res, next) {
   let userId = req.query.userId;
   goods.getGoodsBuyBySellerId(userId, function (result) {
     res.json(result);
   })
 })
+
+//获取购买成功的商品
 router.get('/getPurchaseHistory', function (req, res, next) {
   let userId = req.query.userId;
   goods.getGoodsBuyByUserId(userId, function (result) {
     res.json(result);
   })
 })
+
+//接收头像图片
 router.post('/loadAvatar', uploadAvatar.single("file"), function (req, res, next) {
   let userId = req.body.id;
   var imgName = req.file.mimetype.slice(6);
@@ -389,6 +411,8 @@ router.post('/loadAvatar', uploadAvatar.single("file"), function (req, res, next
     });
   })
 })
+
+//批量标记交易信息已读
 router.get('/markAllBuy', function (req, res, next) {
   let userId = req.query.userId;
   goods.markAllBuy(userId, function (err) {
@@ -406,6 +430,8 @@ router.get('/markAllBuy', function (req, res, next) {
     res.json(data);
   })
 })
+
+//标记交易信息已读
 router.get('/markBuyById', function (req, res, next) {
   let id = req.query.id;
   goods.markBuyById(id, function (err) {
@@ -423,6 +449,8 @@ router.get('/markBuyById', function (req, res, next) {
     res.json(data);
   })
 })
+
+//获取获取未读交易信息
 router.get('/getMarkBuyCount', function (req, res, next) {
   let userId = req.query.userId;
   goods.getMarkBuyCount(userId, function (result) {
@@ -432,6 +460,8 @@ router.get('/getMarkBuyCount', function (req, res, next) {
     res.json(result);
   })
 })
+
+//添加举报信息
 router.get('/addReport', function (req, res, next) {
   let reporter = req.query.reporter;
   let reported = req.query.reported;
@@ -452,6 +482,8 @@ router.get('/addReport', function (req, res, next) {
     res.json(data);
   })
 })
+
+//根据搜索信息搜索商品
 router.get('/getGoodsBySearch', function (req, res, next) {
   let page = req.query.page;
   let goodsSearch = req.query.goodsSearch;

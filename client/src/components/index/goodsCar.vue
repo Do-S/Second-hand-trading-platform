@@ -23,33 +23,35 @@
         <div class="carList" v-for="(item,index) in carList" :key="index">
           <div class="goodsTitle">
             <div class="check">
-              <Checkbox :label="item._id"></Checkbox>
+              <Checkbox :label="item.goods._id"></Checkbox>
             </div>
             <div class="goodsPic">
-              <router-link :to="{ name: 'goodsDetails',params: { id: item._id }}">
-                <img :src="item.url" :alt="index" />
-                <div class="offGoods" v-if="item.status == 0">
+              <router-link :to="{ name: 'goodsDetails',params: { id: item.goods._id }}">
+                <img :src="item.img[0].url" :alt="index" />
+                <div class="offGoods" v-if="item.goods.status == 0">
                   <Icon type="ios-alert-outline" color="red" size="30" />
                   <p>商品已下架</p>
                 </div>
               </router-link>
             </div>
             <div class="titleName">
-              <router-link :to="{ name: 'goodsDetails',params: { id: item._id }}">{{item.goodsName}}</router-link>
+              <router-link
+                :to="{ name: 'goodsDetails',params: { id: item.goods._id }}"
+              >{{item.goods.goodsName}}</router-link>
             </div>
           </div>
           <div class="goodsOld goodsCard">
-            <span>{{item.old/10}}成新</span>
+            <span>{{item.goods.old/10}}成新</span>
           </div>
           <div class="goodsMail goodsCard">
-            <span v-if="item.mail">免邮费</span>
+            <span v-if="item.goods.mail">免邮费</span>
             <span v-else>需付邮费</span>
           </div>
           <div class="goodsPrice goodsCard">
-            <span>￥{{item.price}}</span>
+            <span>￥{{item.goods.price}}</span>
           </div>
           <div class="goodsOp goodsCard">
-            <Button type="error" @click="delCarById(item._id)">删除</Button>
+            <Button type="error" @click="delCarById(item.goods._id)">删除</Button>
           </div>
         </div>
       </CheckboxGroup>
@@ -162,7 +164,7 @@ export default {
       if (this.checkAll) {
         let list = [];
         for (let i = 0; i < this.carList.length; i++) {
-          list[i] = this.carList[i]._id;
+          list[i] = this.carList[i].goods._id;
         }
         this.carIdList = list;
       } else {
@@ -191,8 +193,8 @@ export default {
       let count = 0;
       for (let i = 0; i < this.carIdList.length; i++) {
         for (let j = 0; j < this.carList.length; j++) {
-          if (this.carList[j]._id == this.carIdList[i]) {
-            count += this.carList[j].price;
+          if (this.carList[j].goods._id == this.carIdList[i]) {
+            count += this.carList[j].goods.price;
             if (i == this.carIdList.length - 1) {
               this.allMoney = count;
             }
