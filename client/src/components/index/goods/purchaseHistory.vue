@@ -15,7 +15,7 @@
           <span>卖家</span>
         </div>
         <div class="headRight headSame">
-          <span>购买时间</span>
+          <span>购买时间12</span>
         </div>
       </div>
       <div class="listBody" v-for="(item,index) in goodsData" :key="index">
@@ -38,8 +38,7 @@
           <span style="color:red;">￥{{item.goods.price}}</span>
         </div>
         <div class="bodyRight bodySame">
-          <span v-if="item.goods.nickname==''">{{item.goods.mail}}</span>
-          <span v-else>duleihao123@gmail.com</span>
+          <span>{{item.user.mail}}</span>
         </div>
         <div class="bodyRight bodySame">
           <span>{{item.date | dateformat()}}</span>
