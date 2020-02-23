@@ -51,7 +51,7 @@
             <span>￥{{item.goods.price}}</span>
           </div>
           <div class="goodsOp goodsCard">
-            <Button type="error" @click="delCarById(item.goods._id)">删除</Button>
+            <Button type="warning" @click="delCarById(item.goods._id)">删除</Button>
           </div>
         </div>
       </CheckboxGroup>
