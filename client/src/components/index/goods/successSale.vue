@@ -39,8 +39,7 @@
           <span style="color:red;">￥{{item.goods.price}}</span>
         </div>
         <div class="bodyRight bodySame">
-          <span v-if="item.goods.nickname==''">{{item.goods.mail}}</span>
-          <span v-else>duleihao123@gmail.com</span>
+          <span>{{item.user.mail}}</span>
         </div>
         <div class="bodyRight bodySame">
           <span>{{item.date | dateformat()}}</span>

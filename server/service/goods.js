@@ -401,7 +401,7 @@ exports.getGoodsBuyByUserId = function (userId, callback) {
             $lookup:
             {
                 from: "user",
-                localField: "userId",
+                localField: "sellerId",
                 foreignField: "userId",
                 as: "user"
             }
