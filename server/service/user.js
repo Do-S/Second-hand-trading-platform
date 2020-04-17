@@ -2,6 +2,8 @@ var db = require('../models/db');
 const nodemailer = require('nodemailer');
 var ObjectId = require('mongoose').Types.ObjectId;
 
+
+//根据邮箱查询用户
 exports.getUser = function (mail, callback) {
     db.user.findOne({ mail: mail }, function (err, docs) {
         if (err) {
@@ -11,6 +13,7 @@ exports.getUser = function (mail, callback) {
     })
 };
 
+//添加用户
 exports.setUser = function (mail, password, callback) {
     const saveUser = new db.user({
         mail: mail,
@@ -30,6 +33,7 @@ exports.setUser = function (mail, password, callback) {
     })
 };
 
+//获取所有用户
 exports.getAllUser = function (callback) {
     db.user.find(function (err, docs) {
         if (err) {

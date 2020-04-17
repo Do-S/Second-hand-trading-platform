@@ -13,6 +13,7 @@ var pubKey = new NodeRSA(publicKey);
 priKey.setOptions({ encryptionScheme: 'pkcs1' });
 pubKey.setOptions({ encryptionScheme: 'pkcs1' })
 
+//管理员登录
 router.post('/login', function (req, res, next) {
     let userName = req.body.user;
     let password = req.body.password;
@@ -46,6 +47,8 @@ router.post('/login', function (req, res, next) {
         }
     })
 })
+
+//管理员注册
 router.post('/register', function (req, res, next) {
     let userName = req.body.user;
     let password = req.body.password;
@@ -56,6 +59,8 @@ router.post('/register', function (req, res, next) {
         })
     })
 })
+
+//修改管理员密码
 router.post('/updatePassword', function (req, res, next) {
     let userName = req.body.user;
     let password = req.body.password;
@@ -94,6 +99,8 @@ router.post('/updatePassword', function (req, res, next) {
         }
     })
 })
+
+//根据日期获取商品交易信息
 router.get('/getGoodsByDate', function (req, res, next) {
     let fromDate = req.query.fromDate;
     let toDate = req.query.toDate;
@@ -101,37 +108,57 @@ router.get('/getGoodsByDate', function (req, res, next) {
         res.json(result);
     })
 })
+
+//根据卖家查询交易信息
 router.get('/getGoodsBySeller', function (req, res, next) {
     let sellerMail = req.query.sellerMail;
-    goods.getGoodsBySeller(sellerMail, function (result) {
-        res.json(result);
+    user.getUser(sellerMail, function (count) {
+        if (count) {
+            goods.getGoodsBySeller(sellerMail, function (result) {
+                res.json(result);
+            })
+        } else {
+            res.json(count);
+        }
     })
 })
+
+//获取过去七日交易额
 router.get('/getDailyTurnover', function (req, res, next) {
     goods.getDailyTurnover(function (result) {
         res.json(result);
     })
 })
+
+//获取过去12个月交易额
 router.get('/getMonthlyTransaction', function (req, res, next) {
     goods.getMonthlyTransaction(function (result) {
         res.json(result);
     })
 })
+
+//获取过去七日交易数
 router.get('/getDailyTradingVolume', function (req, res, next) {
     goods.getDailyTradingVolume(function (result) {
         res.json(result);
     })
 })
+
+//获取过去12个月交易数
 router.get('/getMonthlyTradingVolume', function (req, res, next) {
     goods.getMonthlyTradingVolume(function (result) {
         res.json(result);
     })
 })
+
+//获取举报信息
 router.get('/getReport', function (req, res, next) {
     goods.getReport(function (result) {
         res.json(result);
     })
 })
+
+//删除举报商品
 router.get('/delReportByGoodsId', function (req, res, next) {
     let goodsId = req.query.goodsId;
     goods.delReportByGoodsId(goodsId, function (err) {

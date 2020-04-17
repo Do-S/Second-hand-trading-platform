@@ -116,6 +116,7 @@ export default {
   },
   created() {},
   methods: {
+    //根据日期获取交易信息
     async getGoodsByDate() {
       try {
         this.toDate == "" ? (this.toDate = new Date()) : "";
@@ -127,7 +128,6 @@ export default {
         });
         if (data.status == 200) {
           this.buyListByDate = data.data;
-          console.log(this.buyListByDate);
           this.$Message.success("查询成功");
           this.setTableData(this.buyListByDate);
         }
@@ -135,6 +135,8 @@ export default {
         console.error(error);
       }
     },
+
+    //根据卖家获取交易信息
     async getGoodsBySeller() {
       try {
         if (this.sellerMail == "") {
@@ -145,17 +147,22 @@ export default {
               sellerMail: this.sellerMail
             }
           });
-          if (data.status == 200) {
+          console.log(data);
+          if (data.status == 200 && data.data) {
             this.buyListBySeller = data.data;
-            console.log(this.buyListBySeller);
             this.$Message.success("查询成功");
             this.setTableData(this.buyListBySeller);
+          } else {
+            this.$Message.error("卖家不存在");
+            this.buyListBySeller = [];
           }
         }
       } catch (error) {
         console.error(error);
       }
     },
+
+    //设置表格数据
     setTableData(list) {
       this.tableData = [];
       for (let i = 0; i < list.length; i++) {
@@ -171,8 +178,9 @@ export default {
           .toString();
         this.tableData.push(str);
       }
-      console.log(this.tableData);
     },
+
+    //导出表格数据
     exportExcel() {
       require.ensure([], () => {
         const {
@@ -182,12 +190,14 @@ export default {
         export_json_to_excel(this.tHeader, data, "商品交易记录");
       });
     },
+
     formatJson(filterVal, jsonData) {
       return jsonData.map(v => filterVal.map(j => v[j]));
     }
   }
 };
 </script>
+
 <style lang="scss" scoped>
 #transactionInquiry {
   width: 100%;

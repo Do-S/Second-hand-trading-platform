@@ -48,10 +48,14 @@
           <div class="commentLists">
             <div class="list" v-for="(item,index) in commentList" :key="index">
               <div class="userAvatar">
-                <img :src="item.user.avatar" />
+                <router-link :to="{ name: 'goodsUser',params: { id: item.user.userId}}">
+                  <img :src="item.user.avatar" />
+                </router-link>
               </div>
               <div class="userComment">
-                <span>{{item.user.mail}}</span>
+                <router-link
+                  :to="{ name: 'goodsUser',params: { id: item.user.userId}}"
+                >{{item.user.mail}}</router-link>
                 <Tag
                   style="margin-left:10px;"
                   color="green"
@@ -417,10 +421,13 @@ export default {
               padding-left: 20px;
               padding-top: 10px;
               padding-bottom: 10px;
-              span {
+              a {
                 color: #18191a;
                 font-weight: 500;
                 font-size: 16px;
+                &:hover {
+                  color: #2d8cf0;
+                }
               }
               p {
                 padding-top: 10px;
