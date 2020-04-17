@@ -82,6 +82,7 @@ export default {
     this.getMonthlyTradingVolume();
   },
   methods: {
+    //获取过去七日交易额
     async getDailyTurnover() {
       try {
         let data = await this.$http.get("api/admin/getDailyTurnover");
@@ -113,6 +114,8 @@ export default {
         console.error(error);
       }
     },
+
+    //获取过去12个月交易额
     async getMonthlyTransaction() {
       try {
         let data = await this.$http.get("api/admin/getMonthlyTransaction");
@@ -144,6 +147,8 @@ export default {
         console.error(error);
       }
     },
+
+    //获取过去七日交易数
     async getDailyTradingVolume() {
       try {
         let data = await this.$http.get("api/admin/getDailyTradingVolume");
@@ -175,6 +180,8 @@ export default {
         console.error(error);
       }
     },
+
+    //获取过去12个月交易数
     async getMonthlyTradingVolume() {
       try {
         let data = await this.$http.get("api/admin/getMonthlyTradingVolume");
@@ -206,6 +213,8 @@ export default {
         console.error(error);
       }
     },
+
+    //获取过去七日日期
     getSevenDays() {
       let today = new Date();
 
@@ -226,6 +235,8 @@ export default {
       this.sevenDays.push(date7.getDate());
       // console.log(this.sevenDays);
     },
+
+    //获取过去12个月日期
     getTwelveMonths() {
       let nowDate = new Date();
       var result = [];
@@ -238,6 +249,8 @@ export default {
       }
       this.twelveMonths = result.reverse();
     },
+
+    //渲染过去七日交易额图表
     dailyTurnoverChart() {
       let dailyTurnoverBar = echarts.init(
         document.getElementById("dailyTurnoverBar")
@@ -273,6 +286,8 @@ export default {
       );
       dailyTurnoverPie.setOption(this.setOptionByPie(this.dailyTurnoverPie));
     },
+
+    //渲染过去12个月交易额图表
     monthlyTransactionChart() {
       let monthlyTransactionBar = echarts.init(
         document.getElementById("monthlyTransactionBar")
@@ -310,6 +325,8 @@ export default {
         this.setOptionByPie(this.monthlyTransactionPie)
       );
     },
+
+    //渲染过去七日交易数图表
     dailyTradingVolumeChart() {
       let dailyTradingVolumeBar = echarts.init(
         document.getElementById("dailyTradingVolumeBar")
@@ -347,6 +364,8 @@ export default {
         this.setOptionByPie(this.dailyTradingVolumePie)
       );
     },
+
+    //渲染过去12个月交易数图表
     monthlyTradingVolumeChart() {
       let monthlyTradingVolumeBar = echarts.init(
         document.getElementById("monthlyTradingVolumeBar")
@@ -384,6 +403,8 @@ export default {
         this.setOptionByPie(this.monthlyTradingVolumePie)
       );
     },
+
+    
     setOption(title, xData, yData, type, name, date, yname) {
       let option = {
         title: { text: title },
@@ -406,6 +427,8 @@ export default {
       };
       return option;
     },
+
+    //饼形图
     setOptionByPie(data) {
       let option = {
         title: {
@@ -523,17 +546,17 @@ export default {
         justify-content: space-around;
         margin-top: 30px;
         #monthlyTransactionBar {
-          width: 28%;
+          width: 35%;
           height: 100%;
           font-size: 5px;
         }
         #monthlyTransactionLine {
-          width: 28%;
+          width: 35%;
           height: 100%;
           font-size: 5px;
         }
         #monthlyTransactionPie {
-          width: 28%;
+          width: 25%;
           height: 100%;
           font-size: 5px;
         }

@@ -575,7 +575,7 @@ exports.getGoodsBySeller = function (sellerMail, callback) {
 
 //查询过去七天的交易额
 exports.getDailyTurnover = function (callback) {
-    let time = new Date().getFullYear() + '-' + new Date().getMonth() + '-' + new Date().getDate();
+    let time = new Date().getFullYear() + '-' + (new Date().getMonth() + 1) + '-' + new Date().getDate();
     let date = new Date(new Date(time).getTime() - (7 * 24 * 60 * 60 * 1000))
     db.buy.aggregate([
         {
@@ -660,7 +660,7 @@ exports.getMonthlyTransaction = function (callback) {
 
 //查询过去七天的交易订单数
 exports.getDailyTradingVolume = function (callback) {
-    let time = new Date().getFullYear() + '-' + new Date().getMonth() + '-' + new Date().getDate();
+    let time = new Date().getFullYear() + '-' + (new Date().getMonth() + 1) + '-' + new Date().getDate();
     let date = new Date(new Date(time).getTime() - (7 * 24 * 60 * 60 * 1000))
     db.buy.aggregate([
         {

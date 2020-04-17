@@ -18,7 +18,8 @@
             </FormItem>
             <div class="find">
               <router-link :to="{ name: 'findPassword'}">
-                <span>找回密码</span>
+                <!-- <span>找回密码</span> -->
+                找回密码
               </router-link>
             </div>
             <Button :size="buttonSize" type="primary" @click="loginSubmit('loginData')" long>登录</Button>

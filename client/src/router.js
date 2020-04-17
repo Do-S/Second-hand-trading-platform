@@ -201,7 +201,7 @@ const router = new VueRouter({
 
 //路由跳转之前
 router.beforeEach((to, from, next) => {
-    if (to.path !== '/login' && !localStorage.getItem(window.$project)) {
+    if (to.path !== '/login' && to.path !== '/findPassword' && !localStorage.getItem(window.$project)) {
         return next('/login')
     }
     next()
