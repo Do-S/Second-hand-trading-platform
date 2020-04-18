@@ -18,7 +18,10 @@ import {
     Table,
     Collapse,
     Panel,
-    Modal
+    Modal,
+    Card,
+    Select,
+    Option
 } from 'view-design';
 
 Vue.component('Button', Button);
@@ -38,5 +41,8 @@ Vue.component('Table', Table);
 Vue.component('Collapse', Collapse);
 Vue.component('Panel', Panel);
 Vue.component('Modal', Modal);
+Vue.component('Card', Card);
+Vue.component('Select', Select);
+Vue.component('Option', Option);
 Vue.prototype.$Message = Message;
 Vue.prototype.$Notice = Notice;

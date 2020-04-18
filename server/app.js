@@ -59,7 +59,18 @@ var secretOrPrivateKey = "This is perfect projects."; //加密token 校验token�
 app.use(expressJWT({
   secret: secretOrPrivateKey
 }).unless({
-  path: ['/user/login', '/user/key', '/user/mail', '/user/getCode', '/user/register', '/user/findMail', '/user/findCode', '/user/changePassword', '/admin/login', '/', '/admin/register']  //除了这个地址，其他的URL都需要验证
+  //除了这些地址，其他的URL都需要验证
+  path: [
+    '/user/login',
+    '/user/key',
+    '/user/mail',
+    '/user/getCode',
+    '/user/register',
+    '/user/findMail',
+    '/user/findCode',
+    '/user/changePassword',
+    '/admin/login', '/',
+    '/admin/register']
 }));
 
 app.use('/', indexRouter);

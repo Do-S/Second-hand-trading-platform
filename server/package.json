@@ -7,6 +7,7 @@
     "serve": "nodemon start"
   },
   "dependencies": {
+    "axios": "^0.19.2",
     "connect-mongo": "^3.2.0",
     "cookie-parser": "~1.4.4",
     "debug": "~2.6.9",
