@@ -21,14 +21,18 @@
       <div class="listBody" v-for="(item,index) in goodsData" :key="index">
         <div class="bodyLeft">
           <div class="goodsPic">
-            <router-link :to="{ name: 'goodsDetails',params: { id: item.goods._id }}">
+            <a @click="hrefDetail(item.goods._id)">
               <img :src="item.img[0].url" :alt="index" />
-            </router-link>
+            </a>
+            <!-- <router-link :to="{ name: 'goodsDetails',params: { id: item.goods._id }}">
+              <img :src="item.img[0].url" :alt="index" />
+            </router-link>-->
           </div>
           <div class="titleName">
-            <router-link
+            <a @click="hrefDetail(item.goods._id)">{{item.goods.goodsName}}</a>
+            <!-- <router-link
               :to="{ name: 'goodsDetails',params: { id: item.goods._id }}"
-            >{{item.goods.goodsName}}</router-link>
+            >{{item.goods.goodsName}}</router-link>-->
           </div>
         </div>
         <div class="bodyCenter bodySame">
@@ -89,6 +93,15 @@ export default {
       } catch (error) {
         console.error(error);
       }
+    },
+    hrefDetail(id) {
+      let newpage = this.$router.resolve({
+        name: "goodsDetails",
+        params: {
+          id: id
+        }
+      });
+      window.open(newpage.href, "_blank");
     },
     async delGoods(goodsId) {
       try {

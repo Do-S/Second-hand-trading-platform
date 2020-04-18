@@ -33,14 +33,18 @@
           <div class="goodsList" v-for="(item,index) in goodsList" :key="index">
             <div class="top">
               <div class="goodsPic">
-                <router-link :to="{ name: 'goodsDetails',params: { id: item._id }}">
+                <a @click="hrefDetail(item._id)">
                   <img :src="item.img[0].url" />
-                </router-link>
+                </a>
+                <!-- <router-link :to="{ name: 'goodsDetails',params: { id: item._id }}">
+                  <img :src="item.img[0].url" />
+                </router-link>-->
               </div>
               <div class="titleName">
-                <router-link
+                <a @click="hrefDetail(item._id)">{{item.goodsName}}</a>
+                <!-- <router-link
                   :to="{ name: 'goodsDetails',params: { id: item._id }}"
-                >{{item.goodsName}}</router-link>
+                >{{item.goodsName}}</router-link>-->
               </div>
             </div>
             <div class="last">
@@ -114,6 +118,15 @@ export default {
       } catch (error) {
         console.error(error);
       }
+    },
+    hrefDetail(id) {
+      let newpage = this.$router.resolve({
+        name: "goodsDetails",
+        params: {
+          id: id
+        }
+      });
+      window.open(newpage.href, "_blank");
     }
   }
 };
@@ -230,6 +243,9 @@ export default {
               a {
                 color: #686868;
                 font-size: 13px;
+                &:hover {
+                  color: orangered;
+                }
               }
             }
           }

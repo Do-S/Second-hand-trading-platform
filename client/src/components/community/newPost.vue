@@ -10,7 +10,8 @@
           </div>
           <div class="title">
             <div>
-              <router-link :to="{name:'postDetail', params:{id:item._id}}">{{item.title}}</router-link>
+              <a @click="hrefDetail(item._id)">{{item.title}}</a>
+              <!-- <router-link :to="{name:'postDetail', params:{id:item._id}}">{{item.title}}</router-link> -->
               <span>{{item.user.mail}}</span>
               <span>|</span>
               <span>发表时间：</span>
@@ -52,6 +53,15 @@ export default {
       } catch (error) {
         console.error(error);
       }
+    },
+    hrefDetail(id) {
+      let newpage = this.$router.resolve({
+        name: "postDetail",
+        params: {
+          id: id
+        }
+      });
+      window.open(newpage.href, "_blank");
     }
   }
 };

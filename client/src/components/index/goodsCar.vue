@@ -26,18 +26,16 @@
               <Checkbox :label="item.goods._id"></Checkbox>
             </div>
             <div class="goodsPic">
-              <router-link :to="{ name: 'goodsDetails',params: { id: item.goods._id }}">
+              <a @click="hrefDetail(item.goods._id)">
                 <img :src="item.img[0].url" :alt="index" />
                 <div class="offGoods" v-if="item.goods.status == 0">
                   <Icon type="ios-alert-outline" color="red" size="30" />
                   <p>商品已下架</p>
                 </div>
-              </router-link>
+              </a>
             </div>
             <div class="titleName">
-              <router-link
-                :to="{ name: 'goodsDetails',params: { id: item.goods._id }}"
-              >{{item.goods.goodsName}}</router-link>
+              <a @click="hrefDetail(item.goods._id)">{{item.goods.goodsName}}</a>
             </div>
           </div>
           <div class="goodsOld goodsCard">
@@ -116,6 +114,15 @@ export default {
       } catch (error) {
         console.error(error);
       }
+    },
+    hrefDetail(id) {
+      let newpage = this.$router.resolve({
+        name: "goodsDetails",
+        params: {
+          id: id
+        }
+      });
+      window.open(newpage.href, "_blank");
     },
     async delCarById(id) {
       try {
