@@ -128,7 +128,7 @@ export default {
       }
     },
     postSearch() {
-      if (this.goodsData != "") {
+      if (this.postData != "") {
         this.$router.push({
           path: "/postSearch",
           query: { id: this.postData }

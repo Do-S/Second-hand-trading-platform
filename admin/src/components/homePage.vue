@@ -176,6 +176,9 @@ export default {
             case "雪":
               this.weatherLogo = require("@/assets/weather/snow.png");
               break;
+            case "雾":
+              this.weatherLogo = require("@/assets/weather/fog.png");
+              break;
 
             default:
               this.weatherLogo = "";
