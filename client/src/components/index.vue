@@ -60,11 +60,15 @@ export default {
         },
         {
           url: "#",
-          img: require("@/assets/img/1017404h0vezpgr5o7myt6.png")
+          img: require("@/assets/img/112449kz77w48oq6w65mse.png")
         },
         {
           url: "#",
-          img: require("@/assets/img/101850064m2a8gmrdzlio9.png")
+          img: require("@/assets/img/171200azl8w4zoiuszma2c.png")
+        },
+        {
+          url: "#",
+          img: require("@/assets/img/101121k3nxmeko8jinbdc6.jpg")
         }
       ],
       action: 0,
@@ -155,7 +159,7 @@ export default {
         }
       }
       .list_ul {
-        width: 200px;
+        // width: 200px;
         height: 20px;
         position: absolute;
         top: 400px;
@@ -164,8 +168,9 @@ export default {
         flex-direction: row;
         justify-content: flex-start;
         .list_li {
-          width: 100%;
+          width: 45px;
           height: 8px;
+          margin-left: 10px;
           list-style-type: none;
           .carousel {
             width: 8px;
