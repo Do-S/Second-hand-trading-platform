@@ -49,8 +49,20 @@
             <span>￥{{item.goods.price}}</span>
           </div>
           <div class="goodsOp goodsCard">
-            <Button type="warning" @click="delCarById(item.goods._id)">删除</Button>
+            <Button type="warning" @click="()=>{modal_one=true;delGoodsId=item.goods._id}">删除</Button>
           </div>
+          <Modal v-model="modal_one" width="360">
+            <p slot="header" style="color:#f60;text-align:center">
+              <Icon type="ios-information-circle"></Icon>
+              <span>删除确认</span>
+            </p>
+            <div style="text-align:center">
+              <p>你确定把该商品从你的购物车中移除吗?</p>
+            </div>
+            <div slot="footer">
+              <Button type="error" size="large" long @click="delCarById()">删除</Button>
+            </div>
+          </Modal>
         </div>
       </CheckboxGroup>
       <div class="bottom">
@@ -60,7 +72,19 @@
             :value="checkAll"
             @click.prevent.native="handleCheckAll"
           >全选</Checkbox>
-          <span @click="delCarByIdList">删除</span>
+          <span @click="modal_two=true">删除</span>
+          <Modal v-model="modal_two" width="360">
+            <p slot="header" style="color:#f60;text-align:center">
+              <Icon type="ios-information-circle"></Icon>
+              <span>删除确认</span>
+            </p>
+            <div style="text-align:center">
+              <p>你确定把这些商品从你的购物车中移除吗?</p>
+            </div>
+            <div slot="footer">
+              <Button type="error" size="large" long @click="delCarByIdList">删除</Button>
+            </div>
+          </Modal>
         </div>
         <div class="pay">
           <div class="payDetail">
@@ -73,9 +97,21 @@
           <div v-if="carIdList.length===0" class="payButton payButtonStop">
             <span>结算</span>
           </div>
-          <div v-else class="payButton" @click="addGoodsBuyList()">
+          <div v-else class="payButton" @click="modal_three=true">
             <span>结算</span>
           </div>
+          <Modal v-model="modal_three" width="360">
+            <p slot="header" style="color:#f60;text-align:center">
+              <Icon type="ios-information-circle"></Icon>
+              <span>购买确认</span>
+            </p>
+            <div style="text-align:center">
+              <p>你确定购买该商品吗?</p>
+            </div>
+            <div slot="footer">
+              <Button type="success" size="large" long @click="addGoodsBuyList()">购买</Button>
+            </div>
+          </Modal>
         </div>
       </div>
     </div>
@@ -91,7 +127,11 @@ export default {
       carIdList: [],
       indeterminate: false,
       checkAll: false,
-      allMoney: 0
+      allMoney: 0,
+      modal_one: false,
+      delGoodsId: "",
+      modal_two: false,
+      modal_three: false
     };
   },
   created() {
@@ -124,11 +164,14 @@ export default {
       });
       window.open(newpage.href, "_blank");
     },
-    async delCarById(id) {
+
+    //根据id删除商品
+    async delCarById() {
       try {
         let data = await this.$http.get("/api/delCarById", {
-          params: { goodsId: id, userId: this.$getUser.userId }
+          params: { goodsId: this.delGoodsId, userId: this.$getUser.userId }
         });
+        this.modal_one = false;
         if (data.data.status == 200) {
           this.$Message.success(data.data.text);
           this.getCarData();
@@ -139,6 +182,8 @@ export default {
         console.error(error);
       }
     },
+
+    //批量删除商品
     async delCarByIdList() {
       try {
         if (this.carIdList.length > 0) {
@@ -148,6 +193,7 @@ export default {
               userId: this.$getUser.userId
             }
           });
+          this.modal_two = false;
           if (data.data.status == 200) {
             this.$Message.success(data.data.text);
             this.getCarData();
@@ -217,6 +263,7 @@ export default {
             userId: this.$getUser.userId
           }
         });
+        this.modal_three = false;
         if (data.data.status == 200) {
           this.getCarData();
           this.$Message.success(data.data.text);

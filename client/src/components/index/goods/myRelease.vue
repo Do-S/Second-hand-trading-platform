@@ -44,7 +44,19 @@
         </div>
         <div class="bodyRight bodySame">
           <router-link :to="{ name: 'editGoods',params: { id: item._id }}">修改</router-link>
-          <a @click="delGoods(item._id)">删除</a>
+          <a @click="()=>{modal_one=true;delGoodsId=item._id}">删除</a>
+          <Modal v-model="modal_one" width="360">
+            <p slot="header" style="color:#f60;text-align:center">
+              <Icon type="ios-information-circle"></Icon>
+              <span>删除确认</span>
+            </p>
+            <div style="text-align:center">
+              <p>你确定要删除该商品吗?</p>
+            </div>
+            <div slot="footer">
+              <Button type="error" size="large" long @click="delGoods">删除</Button>
+            </div>
+          </Modal>
           <i-switch
             size="large"
             v-model="item.status"
@@ -65,7 +77,9 @@ export default {
   name: "myRelease",
   data() {
     return {
-      goodsData: []
+      goodsData: [],
+      modal_one: false,
+      delGoodsId: ""
     };
   },
   created() {
@@ -111,13 +125,14 @@ export default {
       });
       window.open(newpage.href, "_blank");
     },
-    async delGoods(goodsId) {
+    async delGoods() {
       try {
         let data = await this.$http.get("/api/delGoodsById", {
           params: {
-            goodsId: goodsId
+            goodsId: this.delGoodsId
           }
         });
+        this.modal_one = false;
         if (data.data.status == 200) {
           this.$Message.success(data.data.text);
           this.getMyRelease();

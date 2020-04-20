@@ -29,7 +29,7 @@
         <div class="lists">
           <Commodity :commodityData="commodityData" />
           <div class="next">
-            <Page :total="pageCount" @on-change="pageChange" />
+            <Page :total="pageCount" :page-size="pageSize" @on-change="getGoods" />
           </div>
         </div>
       </div>
@@ -78,8 +78,8 @@ export default {
       list_in: "list_in",
       list_out: "list_out",
       actionTime: 4,
-      page: 1,
-      pageCount: 1,
+      pageCount: 0,
+      pageSize: 10,
       commodityData: []
     };
   },
@@ -106,19 +106,16 @@ export default {
         }
       }, this.actionTime * 1000);
     },
-    pageChange(id) {
-      this.page = id;
-      this.getGoods();
-    },
-    async getGoods() {
+    async getGoods(page) {
       try {
-        let count = await this.$http.get("/api/getGoodsCount");
-        this.pageCount = count.data.count;
         let { data } = await this.$http.get("/api/getGoods", {
-          params: { page: (this.page - 1) * 10 }
+          params: {
+            page: (page - 1) * this.pageSize,
+            pageSize: this.pageSize
+          }
         });
-        this.commodityData = data;
-        console.log(data);
+        this.commodityData = data.result;
+        this.pageCount = data.count;
       } catch (error) {
         console.error(error);
       }
@@ -175,7 +172,7 @@ export default {
           .carousel {
             width: 8px;
             height: 100%;
-            background-color: #8391a5;
+            background-color: #8397b3;
             border-radius: 50%;
           }
           .list_in {

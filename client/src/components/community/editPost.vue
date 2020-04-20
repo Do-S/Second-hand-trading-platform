@@ -5,9 +5,7 @@
         <div class="left">
           <img src="@/assets/img/logo.png" alt="logo" />
           <span>旧肆</span>
-          <router-link :to="{ name: 'community'}">
-            <Button>返回</Button>
-          </router-link>
+          <Button @click="$router.go(-1)">返回</Button>
         </div>
         <div class="right">
           <Button type="primary" @click="updatePostByPostId">发布</Button>

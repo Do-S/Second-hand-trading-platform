@@ -28,7 +28,7 @@
           </div>
         </div>
         <div class="page">
-          <Page :total="postData.length" :page-size="20" @on-change="getPostBySearch" />
+          <Page :total="pageCount" :page-size="pageSize" @on-change="getPostBySearch" />
         </div>
       </div>
       <div class="right">
@@ -44,7 +44,9 @@ export default {
   name: "postSearch",
   data() {
     return {
-      postData: []
+      postData: [],
+      pageSize: 20,
+      pageCount: 0
     };
   },
   components: {
@@ -52,7 +54,7 @@ export default {
     PopularPost
   },
   created() {
-    this.getPostBySearch(1);
+    this.getPostBySearch();
   },
   methods: {
     async getPostBySearch(page) {
@@ -60,10 +62,12 @@ export default {
         let data = await this.$http.get("/api/post/getPostBySearch", {
           params: {
             postSearch: this.$route.query.id,
-            page: (page - 1) * 20
+            page: (page - 1) * this.pageSize,
+            pageSize: this.pageSize
           }
         });
-        this.postData = data.data;
+        this.postData = data.data.result;
+        this.pageCount = data.data.count[0].count;
         console.log(data);
       } catch (error) {
         console.error(error);

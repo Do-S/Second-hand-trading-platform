@@ -15,7 +15,7 @@
           <span>卖家</span>
         </div>
         <div class="headRight headSame">
-          <span>购买时间12</span>
+          <span>购买时间</span>
         </div>
       </div>
       <div class="listBody" v-for="(item,index) in goodsData" :key="index">

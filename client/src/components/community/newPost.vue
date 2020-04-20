@@ -26,7 +26,7 @@
       </div>
     </div>
     <div class="page">
-      <Page :total="postList.length" :page-size="20" @on-change="getPost" />
+      <Page :total="count" :page-size="pageSize" @on-change="getPost" />
     </div>
   </div>
 </template>
@@ -35,7 +35,9 @@ export default {
   name: "newPost",
   data() {
     return {
-      postList: []
+      postList: [],
+      pageSize: 15,
+      count: 0
     };
   },
   created() {
@@ -46,10 +48,12 @@ export default {
       try {
         let data = await this.$http.get("/api/post/getPost", {
           params: {
-            count: (page - 1) * 20
+            count: (page - 1) * this.pageSize,
+            pageSize: this.pageSize
           }
         });
-        this.postList = data.data;
+        this.postList = data.data.result;
+        this.count = data.data.count;
       } catch (error) {
         console.error(error);
       }

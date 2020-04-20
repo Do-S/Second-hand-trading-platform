@@ -12,7 +12,7 @@
           <div class="look">
             <Icon size="15" type="ios-eye-outline" />
             <span>{{item.count}}</span>
-            <Dropdown @on-click="delPostByPostId(item._id)">
+            <Dropdown @on-click="()=>{modal_one=true;delPostId=item._id}">
               <Icon size="23" type="ios-more" color="#aaaeb3" />
               <DropdownMenu slot="list">
                 <DropdownItem>
@@ -20,6 +20,18 @@
                 </DropdownItem>
               </DropdownMenu>
             </Dropdown>
+            <Modal v-model="modal_one" width="360">
+              <p slot="header" style="color:#f60;text-align:center">
+                <Icon type="ios-information-circle"></Icon>
+                <span>删除确认</span>
+              </p>
+              <div style="text-align:center">
+                <p>你确定要删除该商品吗?</p>
+              </div>
+              <div slot="footer">
+                <Button type="error" size="large" long @click="delPostByPostId">删除</Button>
+              </div>
+            </Modal>
           </div>
         </div>
       </div>
@@ -31,7 +43,9 @@ export default {
   name: "myPost",
   data() {
     return {
-      postList: []
+      postList: [],
+      modal_one: false,
+      delPostId: ""
     };
   },
   created() {
@@ -50,13 +64,14 @@ export default {
         console.log(error);
       }
     },
-    async delPostByPostId(id) {
+    async delPostByPostId() {
       try {
         let data = await this.$http.get("/api/post/delPostByPostId", {
           params: {
-            postId: id
+            postId: this.delPostId
           }
         });
+        this.modal_one = false;
         if (data.data.status == 200) {
           this.$Message.success(data.data.text);
           this.getPostByUserId();

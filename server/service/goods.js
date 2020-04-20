@@ -39,14 +39,14 @@ exports.setGoodsImg = function (imgId, filePath, callback) {
 };
 
 //获取商品
-exports.getGoods = function (page, callback) {
+exports.getGoods = function (page, pageSize, callback) {
     db.goods.aggregate([
         {
             $match: { status: 1 }
         },
         { $sort: { date: -1 } },
         { $skip: page },
-        { $limit: 10 },
+        { $limit: pageSize },
         {
             $lookup:
             {
@@ -821,13 +821,13 @@ exports.getReport = function (callback) {
 }
 
 //根据搜索值获取商品
-exports.getGoodsBySearch = function (page, goodsSearch, callback) {
+exports.getGoodsBySearch = function (page, goodsSearch, pageSize, callback) {
     db.goods.aggregate([
         {
             $match: { goodsName: { $regex: new RegExp(goodsSearch, "i") }, status: 1 }
         },
         { $skip: page },
-        { $limit: 20 },
+        { $limit: pageSize },
         { $sort: { count: -1 } },
         {
             $lookup:
@@ -848,6 +848,27 @@ exports.getGoodsBySearch = function (page, goodsSearch, callback) {
             }
         },
         { $unwind: "$user" },
+    ]).exec(function (err, docs) {
+        if (err) {
+            return callback(err);
+        } else {
+            return callback(docs);
+        }
+    })
+}
+
+//根据搜索值获取商品总数量
+exports.getGoodsBySearchCount = function (goodsSearch, callback) {
+    db.goods.aggregate([
+        {
+            $match: { goodsName: { $regex: new RegExp(goodsSearch, "i") }, status: 1 }
+        },
+        {
+            $group: {
+                _id: null,
+                count: { $sum: 1 }
+            }
+        },
     ]).exec(function (err, docs) {
         if (err) {
             return callback(err);

@@ -23,10 +23,11 @@ exports.addPost = function (title, content, userId, callback) {
 }
 
 //获取帖子
-exports.getPost = function (count, callback) {
+exports.getPost = function (count, pageSize, callback) {
     db.post.aggregate([
+        { $sort: { "date": -1 } },
         { $skip: count },
-        { $limit: 20 },
+        { $limit: pageSize },
         {
             $lookup:
             {
@@ -36,7 +37,6 @@ exports.getPost = function (count, callback) {
                 as: "user"
             }
         },
-        { $sort: { "date": -1 } },
         { $unwind: "$user" },
     ]).exec(function (err, docs) {
         if (err) {
@@ -44,6 +44,16 @@ exports.getPost = function (count, callback) {
         } else {
             if (callback) callback(docs);
         }
+    })
+}
+
+//获取帖子总数
+exports.getPostCount = function (callback) {
+    db.post.find().count(function (err, count) {
+        if (err) {
+            console.error(err);
+        }
+        return callback(count);
     })
 }
 
@@ -130,12 +140,12 @@ exports.getPopularPost = function (callback) {
     let oneDayTime = 24 * 60 * 60 * 1000;
 
     let lastMon = new Date(dateTime - (dateDay + 13) * oneDayTime);
-    let lastSun = new Date(dateTime - (dateDay + 6) * oneDayTime);
+    // let lastSun = new Date(dateTime - (dateDay + 6) * oneDayTime);
     db.post.aggregate([
         {
             $match: {
                 date: {
-                    $gte: lastMon, $lt: lastSun
+                    $gte: lastMon, $lt: new Date()
                 }
             }
         },
@@ -240,13 +250,13 @@ exports.delPostByPostId = function (postId, callback) {
 }
 
 //根据搜索值获取帖子
-exports.getPostBySearch = function (page, postSearch, callback) {
+exports.getPostBySearch = function (page, postSearch, pageSize, callback) {
     db.post.aggregate([
         {
             $match: { title: { $regex: new RegExp(postSearch, "i") } }
         },
         { $skip: page },
-        { $limit: 20 },
+        { $limit: pageSize },
         { $sort: { count: -1 } },
         {
             $lookup:
@@ -258,6 +268,27 @@ exports.getPostBySearch = function (page, postSearch, callback) {
             }
         },
         { $unwind: "$user" },
+    ]).exec(function (err, docs) {
+        if (err) {
+            return callback(err);
+        } else {
+            return callback(docs);
+        }
+    })
+}
+
+//根据搜索值获取帖子
+exports.getPostBySearchCount = function (postSearch, callback) {
+    db.post.aggregate([
+        {
+            $match: { title: { $regex: new RegExp(postSearch, "i") } }
+        },
+        {
+            $group: {
+                _id: null,
+                count: { $sum: 1 }
+            }
+        },
     ]).exec(function (err, docs) {
         if (err) {
             return callback(err);

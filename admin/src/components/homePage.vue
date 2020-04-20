@@ -176,6 +176,9 @@ export default {
             case "雪":
               this.weatherLogo = require("@/assets/weather/snow.png");
               break;
+            case "雨夹雪":
+              this.weatherLogo = require("@/assets/weather/sleet.png");
+              break;
             case "雾":
               this.weatherLogo = require("@/assets/weather/fog.png");
               break;
@@ -197,12 +200,16 @@ export default {
         let data = await this.$http.get(
           "/web/config/district?subdistrict=2&key=" + amapKey.key
         );
-        this.cityList = data.data.districts[0].districts;
-        for (let i = 0; i < this.cityList.length; i++) {
-          if (this.cityList[i].name == this.localCity.province) {
-            this.province = i;
-            this.cityCode = this.localCity.adcode;
+        if (data.data.infocode == 10000) {
+          this.cityList = data.data.districts[0].districts;
+          for (let i = 0; i < this.cityList.length; i++) {
+            if (this.cityList[i].name == this.localCity.province) {
+              this.province = i;
+              this.cityCode = this.localCity.adcode;
+            }
           }
+        } else {
+          this.$Message.error("省份信息获取失败");
         }
       } catch (error) {
         console.error(error);

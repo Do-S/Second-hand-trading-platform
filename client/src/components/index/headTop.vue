@@ -123,6 +123,7 @@ export default {
           path: "/goodsSearch",
           query: { id: this.goodsData }
         });
+        this.$parent.getGoodsBySearch();
       } else {
         this.$Message.warning("请输入搜索内容");
       }
@@ -133,6 +134,7 @@ export default {
           path: "/postSearch",
           query: { id: this.postData }
         });
+        this.$parent.getPostBySearch();
       } else {
         this.$Message.warning("请输入搜索内容");
       }

@@ -76,8 +76,20 @@
               </div>
               <div class="goodsBuy">
                 <button @click="addGoodsCart()">加入购物车</button>
-                <button @click="addGoodsBuy()">立即购买</button>
+                <button @click="modal_one=true">立即购买</button>
               </div>
+              <Modal v-model="modal_one" width="360">
+                <p slot="header" style="color:#f60;text-align:center">
+                  <Icon type="ios-information-circle"></Icon>
+                  <span>购买确认</span>
+                </p>
+                <div style="text-align:center">
+                  <p>你确定购买该商品吗?</p>
+                </div>
+                <div slot="footer">
+                  <Button type="success" size="large" long @click="addGoodsBuy()">购买</Button>
+                </div>
+              </Modal>
             </div>
           </div>
         </div>
@@ -94,7 +106,8 @@ export default {
       goodsData: {},
       ImgShowId: 0,
       actionSelectId: "actionSelectId",
-      imgSelectId: "imgSelectId"
+      imgSelectId: "imgSelectId",
+      modal_one: false
     };
   },
   components: {
@@ -145,6 +158,7 @@ export default {
             userId: this.$getUser.userId
           }
         });
+        this.modal_one = false;
         if (data.data.status == 200) {
           this.$Message.success(data.data.text);
         } else {

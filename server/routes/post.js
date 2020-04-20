@@ -32,8 +32,15 @@ router.post('/addPost', function (req, res, next) {
 })
 router.get('/getPost', function (req, res, next) {
     let count = parseInt(req.query.count);
-    post.getPost(count, function (result) {
-        res.json(result);
+    let pageSize = parseInt(req.query.pageSize);
+    post.getPost(count, pageSize, function (result) {
+        post.getPostCount(function (count) {
+            const data = {
+                count: count,
+                result: result
+            }
+            res.json(data);
+        })
     })
 })
 router.get('/getPostDetail', function (req, res, next) {
@@ -165,8 +172,15 @@ router.get('/delPostByPostId', function (req, res, next) {
 router.get('/getPostBySearch', function (req, res, next) {
     let page = req.query.page;
     let postSearch = req.query.postSearch;
-    post.getPostBySearch(+page, postSearch, function (result) {
-        res.json(result);
+    let pageSize = req.query.pageSize;
+    post.getPostBySearch(+page, postSearch, +pageSize, function (result) {
+        post.getPostBySearchCount(postSearch, function (count) {
+            const data = {
+                count: count,
+                result: result
+            }
+            res.json(data);
+        })
     })
 })
 router.post('/updatePostByPostId', function (req, res, next) {

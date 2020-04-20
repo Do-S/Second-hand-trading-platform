@@ -65,7 +65,7 @@
                 <div class="timeComment">
                   <Time class="time" :time="item.date" />
                   <Dropdown
-                    @on-click="delComment(item._id)"
+                    @on-click="()=>{modal_one=true;delCommentId=item._id}"
                     v-if="item.user.userId==$getUser.userId"
                   >
                     <Icon size="28" type="ios-more" color="#aaaeb3" />
@@ -74,6 +74,18 @@
                         <span>删除</span>
                       </DropdownItem>
                     </DropdownMenu>
+                    <Modal v-model="modal_one" width="360">
+                      <p slot="header" style="color:#f60;text-align:center">
+                        <Icon type="ios-information-circle"></Icon>
+                        <span>删除确认</span>
+                      </p>
+                      <div style="text-align:center">
+                        <p>你确定要删除该评论吗?</p>
+                      </div>
+                      <div slot="footer">
+                        <Button type="error" size="large" long @click="delComment">删除</Button>
+                      </div>
+                    </Modal>
                   </Dropdown>
                   <Dropdown @on-click="report(item._id)" v-else>
                     <Icon size="28" type="ios-more" color="#aaaeb3" />
@@ -136,7 +148,9 @@ export default {
       },
       collect: 0,
       comment: "",
-      commentList: []
+      commentList: [],
+      modal_one: false,
+      delCommentId: ""
     };
   },
   computed: {
@@ -224,13 +238,14 @@ export default {
         console.error(error);
       }
     },
-    async delComment(id) {
+    async delComment() {
       try {
         let data = await this.$http.get("/api/post/delComment", {
           params: {
-            commentId: id
+            commentId: this.delCommentId
           }
         });
+        this.modal_one = false;
         if (data.data.status == 200) {
           this.getCommentByPostId();
           this.$Message.success(data.data.text);

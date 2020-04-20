@@ -76,8 +76,15 @@ router.post('/uploadImg', upload.array("file"), function (req, res, next) {
 //首页获取商品
 router.get('/getGoods', function (req, res, next) {
   let page = req.query.page;
-  goods.getGoods(+page, function (result) {
-    res.json(result);
+  let pageSize = req.query.pageSize;
+  goods.getGoods(+page, +pageSize, function (result) {
+    goods.getGoodsCount(function (count) {
+      const data = {
+        count: count,
+        result: result
+      }
+      res.json(data);
+    })
   })
 });
 
@@ -187,8 +194,8 @@ router.get('/addGoodsBuyList', function (req, res, next) {
   let userId = req.query.userId;
   let count = 0;
   for (let i = 0; i < carIdList.length; i++) {
-    goods.getGoodsBuyById(carIdList[i], function (result) {
-      if (result) {
+    goods.getGoodsById(carIdList[i], function (result) {
+      if (result.status == 0) {
         count++;
       } else {
         goods.addGoodsBuy(carIdList[i], userId, function (err) {
@@ -487,8 +494,15 @@ router.get('/addReport', function (req, res, next) {
 router.get('/getGoodsBySearch', function (req, res, next) {
   let page = req.query.page;
   let goodsSearch = req.query.goodsSearch;
-  goods.getGoodsBySearch(+page, goodsSearch, function (result) {
-    res.json(result);
+  let pageSize = req.query.pageSize;
+  goods.getGoodsBySearch(+page, goodsSearch, +pageSize, function (result) {
+    goods.getGoodsBySearchCount(goodsSearch, function (count) {
+      const data = {
+        count: count,
+        result: result
+      }
+      res.json(data);
+    })
   })
 })
 

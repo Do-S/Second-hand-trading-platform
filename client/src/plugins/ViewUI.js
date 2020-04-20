@@ -37,7 +37,8 @@ import {
     BackTop,
     Affix,
     Time,
-    Tag
+    Tag,
+    Divider
 } from 'view-design';
 
 Vue.component('Button', Button);
@@ -75,6 +76,7 @@ Vue.component('BackTop', BackTop);
 Vue.component('Affix', Affix);
 Vue.component('Time', Time);
 Vue.component('Tag', Tag);
+Vue.component('Divider', Divider);
 Vue.prototype.$Message = Message;
 Vue.prototype.$Loading = LoadingBar;
 Vue.prototype.$Notice = Notice;

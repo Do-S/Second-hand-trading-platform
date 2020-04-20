@@ -1,7 +1,8 @@
 <template>
   <div id="popularPost">
     <div class="head">
-      <span>上周社区热门</span>
+      <Icon type="md-bonfire" size="25" color="rgb(226,17,12)" />
+      <span>社区热门贴</span>
     </div>
     <div class="body">
       <div class="lists">
@@ -10,9 +11,17 @@
             <span>{{index+1}}</span>
             <router-link :to="{name:'postDetail', params:{id:item._id}}">{{item.title}}</router-link>
           </div>
-          <div class="date">
-            <router-link :to="{ name: 'goodsUser',params: { id: item.user._id }}">{{item.user.mail}}</router-link>
-            <span>{{item.date|dateformat()}}</span>
+          <div class="content">
+            <Icon v-if="index==0" type="ios-ribbon" size="25" color="crimson" />
+            <Icon v-else-if="index==1" type="ios-ribbon" size="25" color="darkorange" />
+            <Icon v-else-if="index==2" type="ios-ribbon" size="25" color="limegreen" />
+            <Icon v-else type="ios-ribbon" size="25" color="#DCDCDC" />
+            <div class="date">
+              <router-link
+                :to="{ name: 'goodsUser',params: { id: item.user._id }}"
+              >{{item.user.mail}}</router-link>
+              <span>{{item.date|dateformat()}}</span>
+            </div>
           </div>
         </div>
       </div>
@@ -58,6 +67,7 @@ export default {
     margin-bottom: 20px;
     span {
       font-size: 16px;
+      margin-left: 10px;
       font-weight: 600;
       color: #18191a;
     }
@@ -66,17 +76,20 @@ export default {
     .lists {
       .list {
         padding-bottom: 20px;
-        padding-left: 10px;
+        padding-right: 10px;
         .title {
           font-size: 14px;
           font-weight: 500;
           color: #494b4d;
           overflow: hidden;
           padding-bottom: 15px;
+          padding-left: 10px;
 
           span:nth-child(1) {
-            font-weight: 700;
-            color: #18191a;
+            font-weight: 600;
+            font-size: 20px;
+            // color: #18191a;
+            color: #1985ff;
             padding-right: 10px;
           }
 
@@ -90,21 +103,27 @@ export default {
             }
           }
         }
-        .date {
-          color: #797c80;
-          font-size: 12px;
-          font-weight: 400;
+        .content {
           display: flex;
-          justify-content: space-between;
-          padding-bottom: 10px;
-          padding-right: 10px;
-          padding-left: 20px;
-          a {
+          width: 100%;
+          padding-left: 5px;
+          .date {
+            width: 100%;
             color: #797c80;
             font-size: 12px;
             font-weight: 400;
-            &:hover {
-              color: #1985ff;
+            display: flex;
+            justify-content: space-between;
+            padding-bottom: 10px;
+            padding-right: 10px;
+            padding-left: 5px;
+            a {
+              color: #797c80;
+              font-size: 12px;
+              font-weight: 400;
+              &:hover {
+                color: #1985ff;
+              }
             }
           }
         }

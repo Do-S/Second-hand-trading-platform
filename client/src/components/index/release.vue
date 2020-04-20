@@ -60,7 +60,13 @@
         <div class="select">
           <div class="update" v-if="imgDetail.count != 5">
             <Icon type="md-camera" size="18" color="black" />
-            <input class="upload_file" type="file" accept="image/*" multiple @change="uploadBefore" />
+            <input
+              class="upload_file"
+              type="file"
+              accept="image/gif, image/jpeg, image/jpg, image/png"
+              multiple
+              @change="uploadBefore"
+            />
           </div>
           <div
             class="selectShow"
@@ -145,16 +151,29 @@ export default {
         let list = e.target.files;
         for (let i = 0; i < list.length; i++) {
           let files = list[i];
-          // 看支持不支持FileReader
-          if (!e || !window.FileReader) return;
-          let reader = new FileReader();
-          reader.readAsDataURL(files);
-          reader.onloadend = function() {
-            let obj = {};
-            obj.url = this.result;
-            _this.imgUrl.push(obj);
-          };
-          this.uploadList.push(files);
+          console.log(files.name.split(".")[1]);
+          if (
+            files.name.split(".")[1] == "gif" ||
+            files.name.split(".")[1] == "jpeg" ||
+            files.name.split(".")[1] == "jpg" ||
+            files.name.split(".")[1] == "png"
+          ) {
+            // 看支持不支持FileReader
+            if (!e || !window.FileReader) return;
+            let reader = new FileReader();
+            reader.readAsDataURL(files);
+            reader.onloadend = function() {
+              let obj = {};
+              obj.url = this.result;
+              _this.imgUrl.push(obj);
+            };
+            this.uploadList.push(files);
+          } else {
+            this.$Notice.warning({
+              title: "图片格式错误",
+              desc: "图片必须是gif、jpeg、jpg、png格式！"
+            });
+          }
         }
         this.autoImgSize();
         this.imgDetail.count = this.uploadList.length;
@@ -164,6 +183,7 @@ export default {
           desc: "图片数量不可以超过5个！"
         });
       }
+      event.target.value = "";
     },
     //自动更新文件大小
     autoImgSize() {
