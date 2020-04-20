@@ -73,22 +73,28 @@ export default {
     }
   }
   .body {
+    width: 100%;
+
     .lists {
+      width: 100%;
       .list {
+        width: 100%;
         padding-bottom: 20px;
         padding-right: 10px;
         .title {
+          width: 100%;
           font-size: 14px;
           font-weight: 500;
           color: #494b4d;
           overflow: hidden;
+          text-overflow: ellipsis;
+          white-space: nowrap;
           padding-bottom: 15px;
           padding-left: 10px;
 
           span:nth-child(1) {
             font-weight: 600;
             font-size: 20px;
-            // color: #18191a;
             color: #1985ff;
             padding-right: 10px;
           }

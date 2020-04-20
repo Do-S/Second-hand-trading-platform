@@ -14,7 +14,7 @@
     </div>
     <div class="body">
       <div class="title">
-        <input type="text" placeholder="请输入标题..." v-model="title" />
+        <input type="text" maxlength="30" placeholder="请输入标题..." v-model="title" />
       </div>
       <div class="content">
         <div class="edit">
