@@ -26,3 +26,12 @@
 - 举报审核
 - 订单图表 
 
+PS：由于管理端使用到获取高德天气的接口，所以你需要在Second-hand-trading-platform\admin\src\assets下面添加一个amapKey.json文件
+
+>文件内容为
+```
+{
+    "key": "此处填写你从高德地图中申请的web服务key值"
+}
+```
+
