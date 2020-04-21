@@ -111,6 +111,8 @@ export default {
         padding-left: 5%;
         padding-right: 5%;
         overflow: hidden;
+        text-overflow: ellipsis;
+        white-space: nowrap;
         img {
           height: 35px;
           width: 35px;
@@ -119,9 +121,12 @@ export default {
           border-radius: 50%;
           cursor: pointer;
         }
-        a {
+        a:nth-child(2) {
           color: rgb(91, 94, 109);
           font-size: 13px;
+          overflow: hidden;
+          text-overflow: ellipsis;
+          white-space: nowrap;
           &:hover {
             color: #1985ff;
           }

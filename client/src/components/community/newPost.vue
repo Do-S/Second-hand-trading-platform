@@ -26,8 +26,17 @@
       </div>
     </div>
     <div class="page">
-      <Page :total="count" :page-size="pageSize" @on-change="getPost" />
+      <Page
+        :total="count"
+        show-sizer
+        show-total
+        :page-size="pageSize"
+        :page-size-opts="pageSizeOpts"
+        @on-page-size-change="changePageSize"
+        @on-change="getPost"
+      />
     </div>
+    <BackTop></BackTop>
   </div>
 </template>
 <script>
@@ -36,8 +45,9 @@ export default {
   data() {
     return {
       postList: [],
-      pageSize: 15,
-      count: 0
+      pageSize: 10,
+      count: 0,
+      pageSizeOpts: [10, 20, 50, 100]
     };
   },
   created() {
@@ -57,6 +67,10 @@ export default {
       } catch (error) {
         console.error(error);
       }
+    },
+    changePageSize(size) {
+      this.pageSize = size;
+      this.getPost();
     },
     hrefDetail(id) {
       let newpage = this.$router.resolve({

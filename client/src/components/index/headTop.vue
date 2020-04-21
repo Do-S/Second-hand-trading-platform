@@ -189,6 +189,11 @@ export default {
         display: flex;
         align-items: center;
         margin-left: 40px;
+        span {
+          &:hover {
+            font-weight: 600;
+          }
+        }
       }
       .search {
         margin-left: 30px;
@@ -206,6 +211,12 @@ export default {
         display: flex;
         align-items: center;
         margin-right: 30px;
+        i {
+          border-radius: 50%;
+          &:hover {
+            background-color: #eef0f5;
+          }
+        }
       }
     }
   }

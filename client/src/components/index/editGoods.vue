@@ -195,6 +195,7 @@ export default {
           desc: "图片数量不可以超过5个！"
         });
       }
+      event.target.value = "";
     },
     //自动更新文件大小
     autoImgSize() {

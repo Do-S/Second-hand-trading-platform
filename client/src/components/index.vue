@@ -29,11 +29,20 @@
         <div class="lists">
           <Commodity :commodityData="commodityData" />
           <div class="next">
-            <Page :total="pageCount" :page-size="pageSize" @on-change="getGoods" />
+            <Page
+              :total="pageCount"
+              show-sizer
+              show-total
+              :page-size="pageSize"
+              :page-size-opts="pageSizeOpts"
+              @on-page-size-change="changePageSize"
+              @on-change="getGoods"
+            />
           </div>
         </div>
       </div>
     </div>
+    <BackTop></BackTop>
   </div>
 </template>
 
@@ -80,7 +89,8 @@ export default {
       actionTime: 4,
       pageCount: 0,
       pageSize: 10,
-      commodityData: []
+      commodityData: [],
+      pageSizeOpts: [10, 20, 50, 100]
     };
   },
   created() {
@@ -119,6 +129,10 @@ export default {
       } catch (error) {
         console.error(error);
       }
+    },
+    changePageSize(size) {
+      this.pageSize = size;
+      this.getGoods();
     }
   }
 };
