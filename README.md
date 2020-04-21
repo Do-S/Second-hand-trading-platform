@@ -28,7 +28,7 @@
 
 PS：由于管理端使用到获取高德天气的接口，所以你需要在`Second-hand-trading-platform\admin\src\assets`下面添加一个`amapKey.json`文件
 
->`amapKey.json`
+>amapKey.json
 ```
 {
     "key": "此处填写你从高德地图中申请的web服务key值"
