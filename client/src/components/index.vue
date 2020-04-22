@@ -180,14 +180,15 @@ export default {
         justify-content: flex-start;
         .list_li {
           width: 45px;
-          height: 8px;
+          height: 7px;
           margin-left: 10px;
           list-style-type: none;
           .carousel {
-            width: 8px;
+            width: 7px;
             height: 100%;
-            background-color: #8397b3;
-            border-radius: 50%;
+            background-color: #8391a5;
+            opacity: 0.7;
+            border-radius: 40%;
           }
           .list_in {
             animation: action_in 4s;
