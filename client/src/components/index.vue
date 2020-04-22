@@ -187,11 +187,12 @@ export default {
             width: 7px;
             height: 100%;
             background-color: #8391a5;
-            opacity: 0.7;
+            opacity: 0.9;
             border-radius: 40%;
           }
           .list_in {
             animation: action_in 4s;
+            background-color: #1985ff;
           }
           .list_out {
             animation: action_out 1.5s;
