@@ -199,7 +199,7 @@ export default {
           }
           @keyframes action_in {
             from {
-              width: 8px;
+              width: 7px;
             }
             to {
               width: 40px;
@@ -210,7 +210,7 @@ export default {
               width: 40px;
             }
             to {
-              width: 8px;
+              width: 7px;
             }
           }
         }
