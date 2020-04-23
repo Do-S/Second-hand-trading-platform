@@ -26,7 +26,7 @@
 - 举报审核
 - 订单图表 
 
-PS：由于管理端使用到获取高德天气的接口，所以你需要在`Second-hand-trading-platform\admin\src\assets`下面添加一个`amapKey.json`文件
+PS：由于管理端使用到获取高德天气的接口，所以需要在`Second-hand-trading-platform\admin\src\assets`下面添加一个`amapKey.json`文件
 
 >amapKey.json
 ```
