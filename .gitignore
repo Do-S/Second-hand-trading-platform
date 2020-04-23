@@ -2,6 +2,7 @@
 node_modules
 goodsImg
 amapKey.json
+mailKey.json
 /dist
 
 # local env files

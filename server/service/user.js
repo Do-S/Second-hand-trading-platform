@@ -1,6 +1,7 @@
 var db = require('../models/db');
 const nodemailer = require('nodemailer');
 var ObjectId = require('mongoose').Types.ObjectId;
+const key = require('../public/key/mailKey.json')
 
 
 //根据邮箱查询用户
@@ -49,22 +50,22 @@ exports.sendMail = function (mail) {
         // host: 'smtp.163.com',
         // port: 465,
         // auth: {
-        //     user: 'jiusiuser@163.com', //注册的163邮箱账号
-        //     pass: 'jiusi123' //邮箱的授权码，不是注册时的密码,等你开启的stmp服务自然就会知道了
+        //     user: '123.com', //注册的163邮箱账号
+        //     pass: '123' //邮箱的授权码，不是注册时的密码,等你开启的stmp服务自然就会知道了
         // }
         host: 'smtp.qq.com',
         service: 'qq',
         secure: true,
         // 我们需要登录到网页邮箱中，然后配置SMTP和POP3服务器的密码
         auth: {
-            user: '3207332581@qq.com',
-            pass: 'iwkuouapirhidfef'
+            user: key.mail,
+            pass: key.mailPassword
         }
         // service: 'gmail',
         // host: 'smtp.gmail.com',
         // auth: {
-        //     user: 'jiusielectricity@gmail.com',
-        //     pass: 'jiusielectricity123'
+        //     user: '123@gmail.com',
+        //     pass: '123'
         // }
     };
     const transporter = nodemailer.createTransport(config);
@@ -76,6 +77,7 @@ exports.sendMail = function (mail) {
     });
 };
 
+//修改密码
 exports.changPassword = function (mail, password, callback) {
     db.user.updateOne({ mail: mail }, { $set: { password: password } }, function (err) {
         if (err) {
