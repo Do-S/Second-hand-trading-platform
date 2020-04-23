@@ -53,6 +53,7 @@ exports.sendMail = function (mail) {
         //     user: '123.com', //注册的163邮箱账号
         //     pass: '123' //邮箱的授权码，不是注册时的密码,等你开启的stmp服务自然就会知道了
         // }
+
         host: 'smtp.qq.com',
         service: 'qq',
         secure: true,
@@ -61,6 +62,7 @@ exports.sendMail = function (mail) {
             user: key.mail,
             pass: key.mailPassword
         }
+        
         // service: 'gmail',
         // host: 'smtp.gmail.com',
         // auth: {
