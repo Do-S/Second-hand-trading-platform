@@ -58,10 +58,12 @@ export default {
           this.oncePassword != ""
         ) {
           if (this.newPassword == this.oncePassword) {
+            //获取公钥
+            let key = await this.$getKey();
             let data = await this.$http.post("/api/admin/updatePassword", {
               user: this.$getUser.userId,
-              password: this.password,
-              newPassword: this.newPassword
+              password: this.$getSecret(this.password, key),
+              newPassword: this.$getSecret(this.newPassword, key)
             });
             if (data.data.status == 200) {
               this.password = "";

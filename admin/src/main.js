@@ -5,6 +5,7 @@ import axios from './plugins/axios'
 import moment from 'moment'
 import 'moment/locale/zh-cn'
 import 'view-design/dist/styles/iview.css';
+import './plugins/jsencryptKey'
 import './plugins/ViewUI';
 import './assets/font/font.css'
 

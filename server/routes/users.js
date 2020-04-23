@@ -20,7 +20,7 @@ router.post('/login', function (req, res, next) {
   var password = priKey.decrypt(req.body.password, 'utf8');
   user.getUser(usermail, function (result) {
     if (result) {
-      if (result.password == password) {
+      if (priKey.decrypt(result.password, 'utf8') == password) {
         let content = { usermail: usermail };  // 要生成token的主题信息
         let secretKey = "This is perfect projects.";
         let token = jwt.sign(content, secretKey, {
@@ -53,7 +53,7 @@ router.post('/login', function (req, res, next) {
 //用户注册
 router.post('/register', function (req, res, next) {
   var usermail = req.body.mail;
-  var password = priKey.decrypt(req.body.password, 'utf8');
+  var password = req.body.password;
   var v_code = req.body.v_code;
   user.getCode(usermail, function (result) {
     if (result.v_code == v_code) {
@@ -195,8 +195,7 @@ router.post('/findCode', function (req, res, next) {
 //修改密码
 router.post('/changePassword', function (req, res, next) {
   const mail = req.body.mail;
-  const password = priKey.decrypt(req.body.password, 'utf8');
-  console.log(mail + '+' + password);
+  const password = req.body.password;
   user.changPassword(mail, password, function (err) {
     if (err) {
       const data = {
@@ -212,6 +211,38 @@ router.post('/changePassword', function (req, res, next) {
       res.json(data);
     }
   })
+})
+
+//根据旧密码修改密码
+router.post('/changePasswordByOld', function (req, res, next) {
+  const mail = req.body.mail;
+  const oldPassword = priKey.decrypt(req.body.oldPassword, 'utf8');
+  const password = req.body.password;
+  user.getUser(mail, function (result) {
+    if (priKey.decrypt(result.password, 'utf8') == oldPassword) {
+      user.changPassword(mail, password, function (err) {
+        if (err) {
+          const data = {
+            status: 404,
+            text: '修改失败'
+          }
+          res.json(data);
+        } else {
+          const data = {
+            status: 200,
+            text: '修改成功'
+          }
+          res.json(data);
+        }
+      })
+    } else {
+      const data = {
+        status: 500,
+        text: '密码错误'
+      }
+      res.json(data);
+    }
+  });
 })
 
 //根据用户id查找用户信息;

@@ -110,6 +110,7 @@ export default {
           id: this.$getUser.userId
         });
         this.userList = data.data;
+        console.log(this.userList);
       } catch (error) {
         console.error(error);
       }
@@ -171,22 +172,19 @@ export default {
         this.oncePassword !== ""
       ) {
         if (this.newPassword == this.oncePassword) {
-          if (this.password == this.userList.password) {
-            let data = await this.$http.post("/api/user/changePassword", {
-              mail: this.userList.mail,
-              password: this.$getSecret(this.newPassword, key)
-            });
-            if (data.data.status == 200) {
-              this.getUser();
-              this.password = "";
-              this.newPassword = "";
-              this.oncePassword = "";
-              this.$Message.success(data.data.text);
-            } else {
-              this.$Message.error(data.data.text);
-            }
+          let data = await this.$http.post("/api/user/changePasswordByOld", {
+            mail: this.userList.mail,
+            oldPassword: this.$getSecret(this.password, key),
+            password: this.$getSecret(this.newPassword, key)
+          });
+          if (data.data.status == 200) {
+            this.getUser();
+            this.password = "";
+            this.newPassword = "";
+            this.oncePassword = "";
+            this.$Message.success(data.data.text);
           } else {
-            this.$Message.warning("密码错误");
+            this.$Message.error(data.data.text);
           }
         } else {
           this.$Message.warning("提交失败");

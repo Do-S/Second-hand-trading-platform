@@ -17,10 +17,10 @@ pubKey.setOptions({ encryptionScheme: 'pkcs1' })
 //管理员登录
 router.post('/login', function (req, res, next) {
     let userName = req.body.user;
-    let password = req.body.password;
+    let password = priKey.decrypt(req.body.password, 'utf8');
     user.getAdmin(userName, function (result) {
         if (result) {
-            if (password == result.password) {
+            if (password == priKey.decrypt(result.password, 'utf8')) {
                 let content = { userName: userName };  // 要生成token的主题信息
                 let secretKey = "This is perfect projects.";
                 let token = jwt.sign(content, secretKey, {
@@ -52,7 +52,7 @@ router.post('/login', function (req, res, next) {
 //管理员注册
 router.post('/register', function (req, res, next) {
     let userName = req.body.user;
-    let password = req.body.password;
+    let password = pubKey.encrypt(req.body.password, 'base64');
     user.addAdmin(userName, password, function (err) {
         res.type('html');
         res.render('index', {
@@ -64,12 +64,12 @@ router.post('/register', function (req, res, next) {
 //修改管理员密码
 router.post('/updatePassword', function (req, res, next) {
     let userName = req.body.user;
-    let password = req.body.password;
+    let password = priKey.decrypt(req.body.password, 'utf8');
     let newPassword = req.body.newPassword;
     user.getAdmin(userName, function (result) {
         if (result) {
             console.log(result);
-            if (result.password == password) {
+            if (priKey.decrypt(result.password, 'utf8') == password) {
                 user.updatePassword(userName, newPassword, function (err) {
                     if (err) {
                         const data = {

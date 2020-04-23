@@ -50,9 +50,11 @@ export default {
   methods: {
     async login() {
       try {
+        //获取公钥
+        let key = await this.$getKey();
         let data = await this.$http.post("api/admin/login", {
           user: this.formInline.user,
-          password: this.formInline.password
+          password: this.$getSecret(this.formInline.password, key)
         });
         if (data.data.status == 200) {
           //保存token
