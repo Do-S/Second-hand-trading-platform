@@ -86,7 +86,7 @@ export default {
       carousel: "carousel",
       list_in: "list_in",
       list_out: "list_out",
-      actionTime: 4,
+      actionTime: 5,
       pageCount: 0,
       pageSize: 10,
       commodityData: [],
@@ -188,10 +188,10 @@ export default {
             height: 100%;
             background-color: #8391a5;
             opacity: 0.9;
-            border-radius: 40%;
+            border-radius: 50%;
           }
           .list_in {
-            animation: action_in 4s;
+            animation: action_in 5s;
             background-color: #1985ff;
           }
           .list_out {
