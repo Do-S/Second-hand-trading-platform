@@ -12,8 +12,11 @@
             <Icon type="ios-lock-outline" slot="prepend"></Icon>
           </Input>
         </FormItem>
-        <FormItem>
+        <FormItem style="display:flex;justify-content: space-around;">
           <Button type="primary" @click="handleSubmit('formInline')">登录</Button>
+          <router-link :to="{ name: 'register'}">
+            <Button style="margin-left: 20px">注册</Button>
+          </router-link>
         </FormItem>
       </Form>
     </div>
@@ -57,16 +60,22 @@ export default {
           password: this.$getSecret(this.formInline.password, key)
         });
         if (data.data.status == 200) {
-          //保存token
-          localStorage.setItem(
-            window.$project,
-            JSON.stringify({
-              token: data.data.token,
-              userId: data.data.userId
-            })
-          );
-          this.$router.push("/");
-          location.reload();
+          if (data.data.adminStatus == 2) {
+            this.$Message.error("你的注册状态码已被停用");
+          } else {
+            //保存token
+            localStorage.setItem(
+              window.$project,
+              JSON.stringify({
+                token: data.data.token,
+                userName: data.data.userName,
+                userId: data.data.userId,
+                admin: data.data.adminStatus
+              })
+            );
+            this.$router.push("/");
+            location.reload();
+          }
         } else {
           this.$Message.error(data.data.text);
         }

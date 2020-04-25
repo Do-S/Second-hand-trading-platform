@@ -8,6 +8,8 @@ import reportReview from './components/reportReview.vue';
 import transactionStatistics from './components/transactionStatistics.vue';
 import modifyInformation from './components/modifyInformation.vue';
 import login from './components/login.vue';
+import register from './components/register.vue';
+import managementAdmin from './components/managementAdmin.vue';
 Vue.use(VueRouter)
 
 const router = new VueRouter({
@@ -48,20 +50,30 @@ const router = new VueRouter({
                     name: "modifyInformation",
                     component: modifyInformation,
                 },
+                {
+                    path: '/index/managementAdmin',
+                    name: "managementAdmin",
+                    component: managementAdmin,
+                },
             ]
 
         },
         {
             path: '/login',
-            name: "/login",
+            name: "login",
             component: login,
+        },
+        {
+            path: '/register',
+            name: "register",
+            component: register,
         },
     ]
 });
 
 //路由跳转之前
 router.beforeEach((to, from, next) => {
-    if (to.path !== '/login' && !localStorage.getItem(window.$project)) {
+    if (to.path !== '/login' && to.path !== '/register' && !localStorage.getItem(window.$project)) {
         return next('/login')
     }
     next()

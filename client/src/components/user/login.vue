@@ -17,10 +17,7 @@
               <Input type="password" v-model="loginData.password" placeholder="输入你的密码"></Input>
             </FormItem>
             <div class="find">
-              <router-link :to="{ name: 'findPassword'}">
-                <!-- <span>找回密码</span> -->
-                找回密码
-              </router-link>
+              <router-link :to="{ name: 'findPassword'}">找回密码</router-link>
             </div>
             <Button :size="buttonSize" type="primary" @click="loginSubmit('loginData')" long>登录</Button>
           </Form>

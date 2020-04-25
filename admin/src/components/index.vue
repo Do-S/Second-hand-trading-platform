@@ -33,15 +33,22 @@
             <MenuItem name="transactionStatistics">交易统计</MenuItem>
           </router-link>
         </Submenu>
+        <Submenu name="3">
+          <template slot="title">
+            <Icon type="md-construct" />个人中心
+          </template>
+          <router-link :to="{ name: 'modifyInformation'}" style="color:black">
+            <MenuItem name="modifyInformation">修改密码</MenuItem>
+          </router-link>
+          <router-link
+            :to="{ name: 'managementAdmin'}"
+            style="color:black"
+            v-if="$getUser.admin==1"
+          >
+            <MenuItem name="managementAdmin">管理管理员</MenuItem>
+          </router-link>
+        </Submenu>
       </i-menu>
-      <router-link
-        :class="[homePage ,{action:$route.name=='modifyInformation'}]"
-        :to="{ name: 'modifyInformation'}"
-        style="color:black"
-      >
-        <Icon type="md-construct" size="15" color="rgba(255, 255, 255, 0.7)" />
-        <span>修改信息</span>
-      </router-link>
     </div>
     <div class="indexShow">
       <router-view></router-view>

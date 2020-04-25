@@ -53,9 +53,28 @@ const reportSchema = new mongoose.Schema({
 
 //管理员
 const adminSchema = new mongoose.Schema({
+    userId: String,
     user: String,
     password: String,
+    date: Date,
+    status: {
+        type: Number,
+        default: 0
+    }
 }, { collection: 'admin' })
+
+//管理员授权码
+const adminCodeSchema = new mongoose.Schema({
+    userId: String,
+    adminCode: String,
+    date: Date,
+    adminId: String,
+    userDate: Date,
+    status: {
+        type: Number,
+        default: 0
+    }
+}, { collection: 'adminCode' })
 
 //商品
 const goodsSchema = new mongoose.Schema({
@@ -159,6 +178,7 @@ const Models = {
     user: mongoose.model('user', userSchema),
     report: mongoose.model('report', reportSchema),
     admin: mongoose.model('admin', adminSchema),
+    adminCode: mongoose.model('adminCode', adminCodeSchema),
     goods: mongoose.model('goods', goodsSchema),
     img: mongoose.model('img', imgSchema),
     car: mongoose.model('car', carSchema),

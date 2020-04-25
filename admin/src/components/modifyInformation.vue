@@ -61,7 +61,7 @@ export default {
             //获取公钥
             let key = await this.$getKey();
             let data = await this.$http.post("/api/admin/updatePassword", {
-              user: this.$getUser.userId,
+              userId: this.$getUser.userId,
               password: this.$getSecret(this.password, key),
               newPassword: this.$getSecret(this.newPassword, key)
             });

@@ -6,7 +6,7 @@
     </div>
     <div class="body">
       <div class="bodyHead">
-        <span>欢迎你，{{$getUser.userId}}</span>
+        <span>欢迎你，{{$getUser.userName}}</span>
       </div>
       <div class="bodyContent">
         <div class="poetry">
@@ -122,6 +122,7 @@ export default {
   created() {
     this.getPoetry();
     this.getLocation();
+    this.getIndex();
   },
   methods: {
     //获取诗词
@@ -136,6 +137,14 @@ export default {
       //清空localStorage
       localStorage.clear();
       this.$router.push("/login");
+    },
+
+    async getIndex() {
+      try {
+        let data = await this.$http.get("/api/admin/getIndex");
+      } catch (error) {
+        console.error(error);
+      }
     },
 
     //获取当前位置信息
@@ -205,7 +214,11 @@ export default {
           for (let i = 0; i < this.cityList.length; i++) {
             if (this.cityList[i].name == this.localCity.province) {
               this.province = i;
-              this.cityCode = this.localCity.adcode;
+              if (this.localCity.adcode == "410000") {
+                this.cityCode = "410100";
+              } else {
+                this.cityCode = this.localCity.adcode;
+              }
             }
           }
         } else {
@@ -222,6 +235,7 @@ export default {
 <style lang="scss" scoped>
 #homePage {
   width: 100%;
+  min-height: 100vh;
   display: flex;
   justify-content: center;
   flex-wrap: wrap;

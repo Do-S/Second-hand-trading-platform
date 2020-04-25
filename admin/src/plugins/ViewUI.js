@@ -21,7 +21,8 @@ import {
     Modal,
     Card,
     Select,
-    Option
+    Option,
+    Switch
 } from 'view-design';
 
 Vue.component('Button', Button);
@@ -44,5 +45,7 @@ Vue.component('Modal', Modal);
 Vue.component('Card', Card);
 Vue.component('Select', Select);
 Vue.component('Option', Option);
+Vue.component('i-switch', Switch);
 Vue.prototype.$Message = Message;
 Vue.prototype.$Notice = Notice;
+Vue.prototype.$Modal = Modal;

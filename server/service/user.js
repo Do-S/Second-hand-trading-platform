@@ -62,7 +62,7 @@ exports.sendMail = function (mail) {
             user: key.mail,
             pass: key.mailPassword
         }
-        
+
         // service: 'gmail',
         // host: 'smtp.gmail.com',
         // auth: {
@@ -139,8 +139,6 @@ exports.updateAvatar = function (userId, path, callback) {
 
 //根据用户id更新用户信息
 exports.updateUserById = function (userId, userList, callback) {
-    console.log(userList);
-    console.log(userId);
     db.user.update({ userId: userId }, {
         $set: {
             nickname: userList.nickname,
@@ -171,16 +169,29 @@ exports.updateMail = function (mail, newMail, callback) {
 }
 
 //添加管理员
-exports.addAdmin = function (user, password, callback) {
+exports.addAdmin = function (user, password, adminCode, callback) {
     const saveAdmin = new db.admin({
         user: user,
-        password: password
+        password: password,
+        date: new Date()
     });
     saveAdmin.save(function (err) {
         if (err) {
             console.error(err);
         }
-        return callback(err);
+        db.admin.updateOne({ _id: saveAdmin._id }, { $set: { userId: saveAdmin._id } }, function (err) {
+            if (err) {
+                console.error(err);
+                return callback(err);
+            } else {
+                db.adminCode.updateOne({ adminCode: adminCode }, { $set: { status: 1, adminId: saveAdmin._id, userDate: new Date() } }, function (err) {
+                    if (err) {
+                        console.error(err);
+                    }
+                    return callback(err);
+                });
+            }
+        });
     })
 }
 
@@ -194,14 +205,108 @@ exports.getAdmin = function (user, callback) {
     })
 }
 
+//根据id获取管理员
+exports.getAdminById = function (userId, callback) {
+    db.admin.findOne({ userId: userId }, function (err, docs) {
+        if (err) {
+            console.error(err);
+        }
+        return callback(docs);
+    })
+}
+
 //更新管理员密码
-exports.updatePassword = function (user, password, callback) {
-    console.log(user);
-    console.log(password);
-    db.admin.updateOne({ user: user }, { $set: { password: password } }, function (err) {
+exports.updatePassword = function (userId, password, callback) {
+    db.admin.updateOne({ userId: userId }, { $set: { password: password } }, function (err) {
         if (err) {
             console.error(err);
         }
         return callback(err);
     });
+}
+
+//保存授权码
+exports.saveAdminCode = function (userId, adminCode, callback) {
+    const saveAdminCode = new db.adminCode({
+        userId: userId,
+        adminCode: adminCode,
+        date: new Date()
+    });
+    saveAdminCode.save(function (err) {
+        if (err) {
+            console.error(err);
+        }
+        return callback(err);
+    })
+}
+
+//根据管理员id获取授权码
+exports.getAdminCodeById = function (userId, callback) {
+    // db.adminCode.find({ userId: userId }, function (err, docs) {
+    //     if (err) {
+    //         console.error(err);
+    //     }
+    //     return callback(docs);
+    // }).sort({ date: -1 })
+    db.adminCode.aggregate([
+        {
+            $match: { 'userId': userId }
+        },
+        { $sort: { date: -1 } },
+        {
+            $lookup:
+            {
+                from: "admin",
+                localField: "adminId",
+                foreignField: "userId",
+                as: "admin"
+            }
+        },
+    ]).exec(function (err, docs) {
+        if (err) {
+            return callback(err);
+        } else {
+            return callback(docs);
+        }
+    })
+}
+
+//根据codeId删除授权码
+exports.delAdminCode = function (codeId, callback) {
+    db.adminCode.remove({ _id: codeId }, function (err) {
+        if (err) {
+            console.log(err);
+        }
+        return callback(err);
+    })
+}
+
+//根据codeId获取授权码
+exports.getAdminCodeByCodeId = function (adminCode, callback) {
+    db.adminCode.findOne({ adminCode: adminCode }, function (err, docs) {
+        if (err) {
+            console.error(err);
+        }
+        return callback(docs);
+    })
+}
+
+//更新管理员密码
+exports.updateAdminStatus = function (userId, status, callback) {
+    db.admin.updateOne({ userId: userId }, { $set: { status: status } }, function (err) {
+        if (err) {
+            console.error(err);
+        }
+        return callback(err);
+    });
+}
+
+//根据userId删除管理员
+exports.delAdminByUserId = function (userId, callback) {
+    db.admin.remove({ userId: userId }, function (err) {
+        if (err) {
+            console.log(err);
+        }
+        return callback(err);
+    })
 }
