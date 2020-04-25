@@ -40,8 +40,24 @@
                 <span>{{item.date|dateformat()}}</span>
               </div>
               <div class="cOperate cSame">
-                <Button type="error" size="small" @click="delAdminCode(item._id)">删除</Button>
+                <Button
+                  type="error"
+                  size="small"
+                  @click="()=>{unUsedCode=item._id;modal_two=true}"
+                >删除</Button>
               </div>
+              <Modal v-model="modal_two" width="360">
+                <p slot="header" style="color:#f60;text-align:center">
+                  <Icon type="ios-information-circle"></Icon>
+                  <span>删除确认</span>
+                </p>
+                <div style="text-align:center">
+                  <p>你确定要删除该授权码吗?</p>
+                </div>
+                <div slot="footer">
+                  <Button type="error" size="large" long @click="delAdminCode()">违规</Button>
+                </div>
+              </Modal>
             </div>
           </div>
         </div>
@@ -129,7 +145,9 @@ export default {
       codeDisplay: false,
       modal: false,
       modal_one: false,
+      modal_two: false,
       password: "",
+      unUsedCode: "",
       usedCode: "",
       usedUserId: ""
     };
@@ -185,16 +203,18 @@ export default {
         console.error(error);
       }
     },
-    async delAdminCode(codeId) {
+    async delAdminCode() {
       try {
         let { data } = await this.$http.get("/api/admin/delAdminCode", {
           params: {
-            codeId: codeId
+            codeId: this.unUsedCode
           }
         });
+        this.unUsedCode = "";
+        this.getAdminCode();
+        this.modal_two = false;
         if (data.status == 200) {
           this.$Message.success(data.text);
-          this.getAdminCode();
         } else {
           this.$Message.error(data.text);
         }
