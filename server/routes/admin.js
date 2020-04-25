@@ -64,7 +64,7 @@ router.post('/register', function (req, res, next) {
             }
             res.json(data);
         } else {
-            user.getAdminCodeByCodeId(adminCode, function (result) {
+            user.getAdminCodeByCode(adminCode, function (result) {
                 if (result) {
                     if (result.status == 0) {
                         user.addAdmin(userName, password, adminCode, function (err) {
@@ -229,31 +229,42 @@ router.get('/applyAdminCode', function (req, res, next) {
     user.getAdminById(userId, function (result) {
         if (result) {
             if (password == priKey.decrypt(result.password, 'utf8')) {
-                let adminCode = ""
-                for (var i = 0; i < 25; i++) {
-                    var ranNum = Math.ceil(Math.random() * 25);
-                    if (Math.ceil(Math.random() * 5) == 1) {
-                        adminCode += Math.ceil(Math.random() * 7) + 2;
-                    } else {
-                        adminCode += String.fromCharCode(65 + ranNum);
+                function judgeCode() {
+
+                    let adminCode = ""
+                    for (var i = 0; i < 25; i++) {
+                        var ranNum = Math.ceil(Math.random() * 25);
+                        if (Math.ceil(Math.random() * 5) == 1) {
+                            adminCode += Math.ceil(Math.random() * 7) + 2;
+                        } else {
+                            adminCode += String.fromCharCode(65 + ranNum);
+                        }
                     }
+
+                    user.getAdminCodeByCode(adminCode, function (outcome) {
+                        if (outcome) {
+                            judgeCode();
+                        } else {
+                            user.saveAdminCode(userId, adminCode, function (err) {
+                                if (err) {
+                                    const data = {
+                                        status: 500,
+                                        text: '申请失败，请重新尝试',
+                                    }
+                                    res.json(data);
+                                } else {
+                                    const data = {
+                                        status: 200,
+                                        text: '申请成功',
+                                        code: adminCode
+                                    }
+                                    res.json(data);
+                                }
+                            })
+                        }
+                    })
                 }
-                user.saveAdminCode(userId, adminCode, function (err) {
-                    if (err) {
-                        const data = {
-                            status: 500,
-                            text: '申请失败，请重新尝试',
-                        }
-                        res.json(data);
-                    } else {
-                        const data = {
-                            status: 200,
-                            text: '申请成功',
-                            code: adminCode
-                        }
-                        res.json(data);
-                    }
-                })
+                judgeCode()
             } else {
                 const data = {
                     status: 201,
@@ -274,7 +285,7 @@ router.get('/applyAdminCode', function (req, res, next) {
 //根据id获取授权码
 router.get('/getAdminCode', function (req, res, next) {
     let userId = req.query.userId;
-    user.getAdminCodeById(userId, function (result) {
+    user.getAdminCodeByUserId(userId, function (result) {
         res.json(result);
     })
 })

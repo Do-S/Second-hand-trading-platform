@@ -241,13 +241,7 @@ exports.saveAdminCode = function (userId, adminCode, callback) {
 }
 
 //根据管理员id获取授权码
-exports.getAdminCodeById = function (userId, callback) {
-    // db.adminCode.find({ userId: userId }, function (err, docs) {
-    //     if (err) {
-    //         console.error(err);
-    //     }
-    //     return callback(docs);
-    // }).sort({ date: -1 })
+exports.getAdminCodeByUserId = function (userId, callback) {
     db.adminCode.aggregate([
         {
             $match: { 'userId': userId }
@@ -281,8 +275,8 @@ exports.delAdminCode = function (codeId, callback) {
     })
 }
 
-//根据codeId获取授权码
-exports.getAdminCodeByCodeId = function (adminCode, callback) {
+//根据授权码查询授权码信息
+exports.getAdminCodeByCode = function (adminCode, callback) {
     db.adminCode.findOne({ adminCode: adminCode }, function (err, docs) {
         if (err) {
             console.error(err);

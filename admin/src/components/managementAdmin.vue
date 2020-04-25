@@ -55,7 +55,7 @@
                   <p>你确定要删除该授权码吗?</p>
                 </div>
                 <div slot="footer">
-                  <Button type="error" size="large" long @click="delAdminCode()">违规</Button>
+                  <Button type="error" size="large" long @click="delAdminCode()">删除</Button>
                 </div>
               </Modal>
             </div>
