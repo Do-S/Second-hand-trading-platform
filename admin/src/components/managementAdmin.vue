@@ -164,7 +164,6 @@ export default {
           }
         });
         this.adminList = data;
-        console.log(data);
       } catch (error) {
         console.error(error);
       }

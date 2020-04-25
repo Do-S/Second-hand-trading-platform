@@ -147,7 +147,6 @@ export default {
               sellerMail: this.sellerMail
             }
           });
-          console.log(data);
           if (data.status == 200 && data.data) {
             this.buyListBySeller = data.data;
             this.$Message.success("查询成功");

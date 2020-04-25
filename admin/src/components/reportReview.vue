@@ -98,7 +98,6 @@ export default {
       try {
         let data = await this.$http.get("/api/admin/getReport");
         this.reportList = data.data;
-        console.log(this.reportList);
       } catch (error) {
         console.error(error);
       }

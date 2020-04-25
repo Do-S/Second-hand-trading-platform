@@ -112,7 +112,6 @@ export default {
         } else {
           this.$Message.error(data.text);
         }
-        console.log(data);
       } catch (error) {
         console.log(error);
       }
