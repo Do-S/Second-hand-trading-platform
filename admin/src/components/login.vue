@@ -61,7 +61,7 @@ export default {
         });
         if (data.data.status == 200) {
           if (data.data.adminStatus == 2) {
-            this.$Message.error("你的注册状态码已被停用");
+            this.$Message.error("你的注册授权码已被停用");
           } else {
             //保存token
             localStorage.setItem(

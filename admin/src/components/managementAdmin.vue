@@ -3,7 +3,7 @@
     <div class="admin">
       <div class="produceCode">
         <Button type="success" @click="modal=true">生成授权码</Button>
-        <Modal v-model="modal" title="申请验证码" @on-ok="ok">
+        <Modal v-model="modal" title="申请授权码" @on-ok="ok">
           <p style="margin-bottom:20px">请输入密码：</p>
           <Input v-model="password" placeholder="请输入密码..." style="width: 300px" />
         </Modal>
