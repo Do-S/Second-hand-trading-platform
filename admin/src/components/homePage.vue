@@ -2,7 +2,6 @@
   <div id="homePage">
     <div class="head">
       <p style="color:black">
-        <span>身份：</span>
         <span v-if="$getUser.admin==1">超级管理员</span>
         <span v-else>普通管理员</span>
       </p>
