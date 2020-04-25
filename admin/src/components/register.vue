@@ -104,6 +104,10 @@ export default {
           adminCode: this.formInline.adminCode
         });
         if (data.status == 200) {
+          this.user = "";
+          this.password = "";
+          this.oncePassword = "";
+          this.adminCode = "";
           this.$Message.success(data.text);
         } else {
           this.$Message.error(data.text);

@@ -1,8 +1,12 @@
 <template>
   <div id="homePage">
     <div class="head">
-      <span></span>
-      <span @click="logout()">注销登录</span>
+      <p style="color:black">
+        <span>身份：</span>
+        <span v-if="$getUser.admin==1">超级管理员</span>
+        <span v-else>普通管理员</span>
+      </p>
+      <span class="logout" @click="logout()">注销登录</span>
     </div>
     <div class="body">
       <div class="bodyHead">
@@ -251,8 +255,10 @@ export default {
     padding-left: 30px;
     padding-right: 30px;
     span {
-      font-size: 15px;
       cursor: pointer;
+      font-size: 15px;
+    }
+    .logout {
       color: rgb(84, 138, 253);
       &:hover {
         color: rgb(255, 111, 111);
