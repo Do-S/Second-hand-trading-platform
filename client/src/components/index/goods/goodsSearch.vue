@@ -41,7 +41,6 @@ export default {
 
         this.goodsData = data.data.result;
         this.pageCount = data.data.count[0].count;
-        console.log(this.pageCount);
       } catch (error) {
         console.error(error);
       }

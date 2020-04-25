@@ -110,7 +110,6 @@ export default {
           id: this.$getUser.userId
         });
         this.userList = data.data;
-        console.log(this.userList);
       } catch (error) {
         console.error(error);
       }

@@ -68,7 +68,6 @@ export default {
         });
         this.postData = data.data.result;
         this.pageCount = data.data.count[0].count;
-        console.log(data);
       } catch (error) {
         console.error(error);
       }

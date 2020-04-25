@@ -151,7 +151,6 @@ export default {
         let list = e.target.files;
         for (let i = 0; i < list.length; i++) {
           let files = list[i];
-          console.log(files.name.split(".")[1]);
           if (
             files.name.split(".")[1] == "gif" ||
             files.name.split(".")[1] == "jpeg" ||
@@ -250,8 +249,6 @@ export default {
           let fileImg = new FormData();
           fileImg.append("file", file);
           fileImg.append("id", id);
-          console.log(file);
-          console.log(fileImg);
           let { data } = await this.$http.post("/api/uploadImg", fileImg);
           if (data.status) {
             if (data.status == 200) {

@@ -52,7 +52,6 @@ export default {
         });
         if (data.data.status == 200) {
           this.goodsData = data.data.list;
-          console.log(this.goodsData);
         } else {
           this.$router.push("/");
           this.$Message.error(data.data.text);
