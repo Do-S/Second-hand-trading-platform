@@ -14,13 +14,6 @@ var postRouter = require('./routes/post');
 
 var app = express();
 
-// view engine setup
-app.set('views', path.join(__dirname, 'views'));
-//设置模板的后缀是html
-app.engine('html', require('ejs').renderFile);
-//指定总模板
-app.set('view engine', 'html');
-
 //配置session
 app.use(session({
   secret: 'this is a string key',   // 可以随便写。 一个 String 类型的字符串，作为服务器端生成 session 的签名

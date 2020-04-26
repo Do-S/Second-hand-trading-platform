@@ -18,12 +18,6 @@ priKey.setOptions({ encryptionScheme: 'pkcs1' });
 pubKey.setOptions({ encryptionScheme: 'pkcs1' })
 // toObject
 
-/* GET home page. */
-router.get('/', function (req, res, next) {
-  res.type('html');
-  res.render('index', { title: 'Express' });
-});
-
 //添加商品
 router.post('/release', function (req, res, next) {
   let commodityData = req.body.commodityData;
