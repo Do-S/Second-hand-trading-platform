@@ -123,13 +123,22 @@ export default {
         let data = await this.$http.get("/api/admin/getGoodsByDate", {
           params: {
             fromDate: this.fromDate,
-            toDate: this.toDate
+            toDate: this.toDate,
+            adminId: this.$getUser.userId
           }
         });
         if (data.status == 200) {
           this.buyListByDate = data.data;
           this.$Message.success("查询成功");
           this.setTableData(this.buyListByDate);
+        } else {
+          if (data.data.status == 401) {
+            this.$Message.error(data.data.text);
+            localStorage.clear();
+            this.$router.push("/login");
+          } else {
+            this.$Message.error(data.data.text);
+          }
         }
       } catch (error) {
         console.error(error);
@@ -144,7 +153,8 @@ export default {
         } else {
           let data = await this.$http.get("/api/admin/getGoodsBySeller", {
             params: {
-              sellerMail: this.sellerMail
+              sellerMail: this.sellerMail,
+              adminId: this.$getUser.userId
             }
           });
           if (data.status == 200 && data.data) {
@@ -152,8 +162,14 @@ export default {
             this.$Message.success("查询成功");
             this.setTableData(this.buyListBySeller);
           } else {
-            this.$Message.error("卖家不存在");
-            this.buyListBySeller = [];
+            if (data.data.status == 401) {
+              this.$Message.error(data.data.text);
+              localStorage.clear();
+              this.$router.push("/login");
+            } else {
+              this.$Message.error("卖家不存在");
+              this.buyListBySeller = [];
+            }
           }
         }
       } catch (error) {

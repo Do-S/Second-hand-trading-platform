@@ -14,6 +14,41 @@ var pubKey = new NodeRSA(publicKey);
 priKey.setOptions({ encryptionScheme: 'pkcs1' });
 pubKey.setOptions({ encryptionScheme: 'pkcs1' })
 
+router.all('*', function (req, res, next) {
+    let adminId = req.param('adminId');
+    if (req.path == '/login' || req.path == '/register') {
+        next();
+    } else {
+        if (adminId) {
+            user.getAdminById(adminId, function (result) {
+                if (result) {
+                    if (result.status == 2) {
+                        const data = {
+                            status: 401,
+                            text: '你的注册授权码已被停用'
+                        }
+                        res.json(data);
+                    } else {
+                        next();
+                    }
+                } else {
+                    const data = {
+                        status: 401,
+                        text: '该用户未注册'
+                    }
+                    res.json(data);
+                }
+            })
+        } else {
+            const data = {
+                status: 404,
+                text: '请求失败'
+            }
+            res.json(data);
+        }
+    }
+})
+
 //管理员登录
 router.post('/login', function (req, res, next) {
     let userName = req.body.user;
@@ -108,7 +143,7 @@ router.get('/getIndex', function (req, res, next) {
 
 //修改管理员密码
 router.post('/updatePassword', function (req, res, next) {
-    let userId = req.body.userId;
+    let userId = req.body.adminId;
     let password = priKey.decrypt(req.body.password, 'utf8');
     let newPassword = req.body.newPassword;
     user.getAdminById(userId, function (result) {
@@ -224,7 +259,7 @@ router.get('/delReportByGoodsId', function (req, res, next) {
 
 //申请注册授权码
 router.get('/applyAdminCode', function (req, res, next) {
-    let userId = req.query.userId;
+    let userId = req.query.adminId;
     let password = priKey.decrypt(req.query.password, 'utf8');
     user.getAdminById(userId, function (result) {
         if (result) {
@@ -284,7 +319,7 @@ router.get('/applyAdminCode', function (req, res, next) {
 
 //根据id获取授权码
 router.get('/getAdminCode', function (req, res, next) {
-    let userId = req.query.userId;
+    let userId = req.query.adminId;
     user.getAdminCodeByUserId(userId, function (result) {
         res.json(result);
     })

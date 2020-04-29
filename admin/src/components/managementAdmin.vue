@@ -160,9 +160,14 @@ export default {
       try {
         let { data } = await this.$http.get("/api/admin/getAdminCode", {
           params: {
-            userId: this.$getUser.userId
+            adminId: this.$getUser.userId
           }
         });
+        if (data.status == 401) {
+          this.$Message.error(data.text);
+          localStorage.clear();
+          this.$router.push("/login");
+        }
         this.adminList = data;
       } catch (error) {
         console.error(error);
@@ -187,7 +192,7 @@ export default {
         let key = await this.$getKey();
         let { data } = await this.$http.get("/api/admin/applyAdminCode", {
           params: {
-            userId: this.$getUser.userId,
+            adminId: this.$getUser.userId,
             password: this.$getSecret(this.password, key)
           }
         });
@@ -196,7 +201,13 @@ export default {
         if (data.status == 200) {
           this.$Message.success(data.text);
         } else {
-          this.$Message.error(data.text);
+          if (data.status == 401) {
+            this.$Message.error(data.text);
+            localStorage.clear();
+            this.$router.push("/login");
+          } else {
+            this.$Message.error(data.text);
+          }
         }
       } catch (error) {
         console.error(error);
@@ -206,7 +217,8 @@ export default {
       try {
         let { data } = await this.$http.get("/api/admin/delAdminCode", {
           params: {
-            codeId: this.unUsedCode
+            codeId: this.unUsedCode,
+            adminId: this.$getUser.userId
           }
         });
         this.unUsedCode = "";
@@ -215,7 +227,13 @@ export default {
         if (data.status == 200) {
           this.$Message.success(data.text);
         } else {
-          this.$Message.error(data.text);
+          if (data.status == 401) {
+            this.$Message.error(data.text);
+            localStorage.clear();
+            this.$router.push("/login");
+          } else {
+            this.$Message.error(data.text);
+          }
         }
         this.getAdminCode();
       } catch (error) {
@@ -240,7 +258,13 @@ export default {
         if (data.status == 200) {
           this.$Message.success(data.text);
         } else {
-          this.$Message.error(data.text);
+          if (data.status == 401) {
+            this.$Message.error(data.text);
+            localStorage.clear();
+            this.$router.push("/login");
+          } else {
+            this.$Message.error(data.text);
+          }
         }
       } catch (error) {
         console.error(error);
@@ -290,7 +314,13 @@ export default {
         if (data.status == 200) {
           this.$Message.success(data.text);
         } else {
-          this.$Message.error(data.text);
+          if (data.status == 401) {
+            this.$Message.error(data.text);
+            localStorage.clear();
+            this.$router.push("/login");
+          } else {
+            this.$Message.error(data.text);
+          }
         }
       } catch (error) {
         console.error(error);

@@ -61,7 +61,7 @@ export default {
             //获取公钥
             let key = await this.$getKey();
             let data = await this.$http.post("/api/admin/updatePassword", {
-              userId: this.$getUser.userId,
+              adminId: this.$getUser.userId,
               password: this.$getSecret(this.password, key),
               newPassword: this.$getSecret(this.newPassword, key)
             });
@@ -71,7 +71,13 @@ export default {
               this.oncePassword = "";
               this.$Message.success(data.data.text);
             } else {
-              this.$Message.error(data.data.text);
+              if (data.data.status == 401) {
+                this.$Message.error(data.data.text);
+                localStorage.clear();
+                this.$router.push("/login");
+              } else {
+                this.$Message.error(data.data.text);
+              }
             }
           } else {
             this.$Message.warning("两次密码不一样");

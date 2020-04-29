@@ -96,7 +96,16 @@ export default {
   methods: {
     async getReport() {
       try {
-        let data = await this.$http.get("/api/admin/getReport");
+        let data = await this.$http.get("/api/admin/getReport", {
+          params: {
+            adminId: this.$getUser.userId
+          }
+        });
+        if (data.data.status == 401) {
+          this.$Message.error(data.data.text);
+          localStorage.clear();
+          this.$router.push("/login");
+        }
         this.reportList = data.data;
       } catch (error) {
         console.error(error);
@@ -107,14 +116,21 @@ export default {
         this.modal1 = false;
         let data = await this.$http.get("/api/admin/delReportByGoodsId", {
           params: {
-            goodsId: this.delGoodsId
+            goodsId: this.delGoodsId,
+            adminId: this.$getUser.userId
           }
         });
         if (data.data.status == 200) {
           this.getReport();
           this.$Message.success(data.data.text);
         } else {
-          this.$Message.error(data.data.text);
+          if (data.data.status == 401) {
+            this.$Message.error(data.data.text);
+            localStorage.clear();
+            this.$router.push("/login");
+          } else {
+            this.$Message.error(data.data.text);
+          }
         }
       } catch (error) {
         console.error(error);
@@ -125,14 +141,21 @@ export default {
         this.modal = false;
         let data = await this.$http.get("/api/delGoodsById", {
           params: {
-            goodsId: this.delGoodsId
+            goodsId: this.delGoodsId,
+            adminId: this.$getUser.userId
           }
         });
         if (data.data.status == 200) {
           this.getReport();
           this.$Message.success(data.data.text);
         } else {
-          this.$Message.error(data.data.text);
+          if (data.data.status == 401) {
+            this.$Message.error(data.data.text);
+            localStorage.clear();
+            this.$router.push("/login");
+          } else {
+            this.$Message.error(data.data.text);
+          }
         }
       } catch (error) {
         console.error(error);

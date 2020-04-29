@@ -123,9 +123,9 @@ export default {
     };
   },
   created() {
+    this.getIndex();
     this.getPoetry();
     this.getLocation();
-    this.getIndex();
   },
   methods: {
     //获取诗词
@@ -144,7 +144,16 @@ export default {
 
     async getIndex() {
       try {
-        let data = await this.$http.get("/api/admin/getIndex");
+        let { data } = await this.$http.get("/api/admin/getIndex", {
+          params: {
+            adminId: this.$getUser.userId
+          }
+        });
+        if (data.status == 401) {
+          this.$Message.error(data.text);
+          localStorage.clear();
+          this.$router.push("/login");
+        }
       } catch (error) {
         console.error(error);
       }

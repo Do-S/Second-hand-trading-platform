@@ -85,7 +85,16 @@ export default {
     //获取过去七日交易额
     async getDailyTurnover() {
       try {
-        let data = await this.$http.get("api/admin/getDailyTurnover");
+        let data = await this.$http.get("api/admin/getDailyTurnover", {
+          params: {
+            adminId: this.$getUser.userId
+          }
+        });
+        if (data.data.status == 401) {
+          this.$Message.error(data.data.text);
+          localStorage.clear();
+          this.$router.push("/login");
+        }
         var list = [];
         this.dailyTurnover = [];
         this.dailyTurnoverPie = [];
@@ -118,7 +127,16 @@ export default {
     //获取过去12个月交易额
     async getMonthlyTransaction() {
       try {
-        let data = await this.$http.get("api/admin/getMonthlyTransaction");
+        let data = await this.$http.get("api/admin/getMonthlyTransaction", {
+          params: {
+            adminId: this.$getUser.userId
+          }
+        });
+        if (data.data.status == 401) {
+          this.$Message.error(data.data.text);
+          localStorage.clear();
+          this.$router.push("/login");
+        }
         var list = [];
         this.monthlyTransaction = [];
         this.monthlyTransactionPie = [];
@@ -151,7 +169,16 @@ export default {
     //获取过去七日交易数
     async getDailyTradingVolume() {
       try {
-        let data = await this.$http.get("api/admin/getDailyTradingVolume");
+        let data = await this.$http.get("api/admin/getDailyTradingVolume", {
+          params: {
+            adminId: this.$getUser.userId
+          }
+        });
+        if (data.data.status == 401) {
+          this.$Message.error(data.data.text);
+          localStorage.clear();
+          this.$router.push("/login");
+        }
         var list = [];
         this.dailyTradingVolume = [];
         this.dailyTradingVolumePie = [];
@@ -184,7 +211,16 @@ export default {
     //获取过去12个月交易数
     async getMonthlyTradingVolume() {
       try {
-        let data = await this.$http.get("api/admin/getMonthlyTradingVolume");
+        let data = await this.$http.get("api/admin/getMonthlyTradingVolume", {
+          params: {
+            adminId: this.$getUser.userId
+          }
+        });
+        if (data.data.status == 401) {
+          this.$Message.error(data.data.text);
+          localStorage.clear();
+          this.$router.push("/login");
+        }
         var list = [];
         this.monthlyTradingVolume = [];
         this.monthlyTradingVolumePie = [];
@@ -404,7 +440,6 @@ export default {
       );
     },
 
-    
     setOption(title, xData, yData, type, name, date, yname) {
       let option = {
         title: { text: title },
