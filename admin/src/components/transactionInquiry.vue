@@ -120,26 +120,17 @@ export default {
     async getGoodsByDate() {
       try {
         this.toDate == "" ? (this.toDate = new Date()) : "";
-        let data = await this.$http.get("/api/admin/getGoodsByDate", {
+        let { data } = await this.$http.get("/api/admin/getGoodsByDate", {
           params: {
             fromDate: this.fromDate,
             toDate: this.toDate,
             adminId: this.$getUser.userId
           }
         });
-        if (data.status == 200) {
-          this.buyListByDate = data.data;
-          this.$Message.success("查询成功");
-          this.setTableData(this.buyListByDate);
-        } else {
-          if (data.data.status == 401) {
-            this.$Message.error(data.data.text);
-            localStorage.clear();
-            this.$router.push("/login");
-          } else {
-            this.$Message.error(data.data.text);
-          }
-        }
+        this.$logout(data.status, data.text);
+        this.buyListByDate = data;
+        this.$Message.success("查询成功");
+        this.setTableData(this.buyListByDate);
       } catch (error) {
         console.error(error);
       }
@@ -150,28 +141,23 @@ export default {
       try {
         if (this.sellerMail == "") {
           this.$Message.error("请填写需要查找的卖家邮箱");
-        } else {
-          let data = await this.$http.get("/api/admin/getGoodsBySeller", {
-            params: {
-              sellerMail: this.sellerMail,
-              adminId: this.$getUser.userId
-            }
-          });
-          if (data.status == 200 && data.data) {
-            this.buyListBySeller = data.data;
-            this.$Message.success("查询成功");
-            this.setTableData(this.buyListBySeller);
-          } else {
-            if (data.data.status == 401) {
-              this.$Message.error(data.data.text);
-              localStorage.clear();
-              this.$router.push("/login");
-            } else {
-              this.$Message.error("卖家不存在");
-              this.buyListBySeller = [];
-            }
-          }
+          return;
         }
+        let { data } = await this.$http.get("/api/admin/getGoodsBySeller", {
+          params: {
+            sellerMail: this.sellerMail,
+            adminId: this.$getUser.userId
+          }
+        });
+        this.$logout(data.status, data.text);
+        if (!data) {
+          this.$Message.error("卖家不存在");
+          this.buyListBySeller = [];
+          return;
+        }
+        this.buyListBySeller = data;
+        this.$Message.success("查询成功");
+        this.setTableData(this.buyListBySeller);
       } catch (error) {
         console.error(error);
       }

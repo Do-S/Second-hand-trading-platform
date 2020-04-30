@@ -149,11 +149,7 @@ export default {
             adminId: this.$getUser.userId
           }
         });
-        if (data.status == 401) {
-          this.$Message.error(data.text);
-          localStorage.clear();
-          this.$router.push("/login");
-        }
+        this.$logout(data.status, data.text);
       } catch (error) {
         console.error(error);
       }

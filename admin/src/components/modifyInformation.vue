@@ -52,38 +52,35 @@ export default {
   methods: {
     async submit() {
       try {
+        //判断表单是否填写完整
         if (
-          this.password != "" &&
-          this.newPassword != "" &&
-          this.oncePassword != ""
+          this.password == "" &&
+          this.newPassword == "" &&
+          this.oncePassword == ""
         ) {
-          if (this.newPassword == this.oncePassword) {
-            //获取公钥
-            let key = await this.$getKey();
-            let data = await this.$http.post("/api/admin/updatePassword", {
-              adminId: this.$getUser.userId,
-              password: this.$getSecret(this.password, key),
-              newPassword: this.$getSecret(this.newPassword, key)
-            });
-            if (data.data.status == 200) {
-              this.password = "";
-              this.newPassword = "";
-              this.oncePassword = "";
-              this.$Message.success(data.data.text);
-            } else {
-              if (data.data.status == 401) {
-                this.$Message.error(data.data.text);
-                localStorage.clear();
-                this.$router.push("/login");
-              } else {
-                this.$Message.error(data.data.text);
-              }
-            }
-          } else {
-            this.$Message.warning("两次密码不一样");
-          }
-        } else {
           this.$Message.warning("请把表单填写完整");
+          return;
+        }
+        //判断两次密码是否相同
+        if (this.newPassword != this.oncePassword) {
+          this.$Message.warning("两次密码不一样");
+          return;
+        }
+        //获取公钥
+        let key = await this.$getKey();
+        let { data } = await this.$http.post("/api/admin/updatePassword", {
+          adminId: this.$getUser.userId,
+          password: this.$getSecret(this.password, key),
+          newPassword: this.$getSecret(this.newPassword, key)
+        });
+        this.$logout(data.status, data.text);
+        if (data.status == 200) {
+          this.password = "";
+          this.newPassword = "";
+          this.oncePassword = "";
+          this.$Message.success(data.text);
+        } else {
+          this.$Message.error(data.text);
         }
       } catch (error) {
         console.error(error);

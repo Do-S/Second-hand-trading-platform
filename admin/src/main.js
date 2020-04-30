@@ -11,12 +11,25 @@ import './assets/font/font.css'
 
 Vue.config.productionTip = false
 Vue.prototype.$http = axios;
+
 moment.locale('zh-cn')
 Vue.prototype.$moment = moment;
+
 Vue.filter('dateformat', function (dataStr, pattern = 'YYYY-MM-DD HH:mm') {
   return moment(dataStr).format(pattern)
 })
+
 Vue.prototype.$getUser = JSON.parse(localStorage.getItem(window.$project));
+
+//退出登录
+Vue.prototype.$logout = function (status, text) {
+  if (status == 401) {
+    this.$Message.error(text);
+    localStorage.clear();
+    this.$router.push("/login");
+    return
+  }
+}
 
 new Vue({
   router,

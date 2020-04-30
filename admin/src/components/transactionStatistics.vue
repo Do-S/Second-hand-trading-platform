@@ -85,21 +85,17 @@ export default {
     //获取过去七日交易额
     async getDailyTurnover() {
       try {
-        let data = await this.$http.get("api/admin/getDailyTurnover", {
+        let { data } = await this.$http.get("api/admin/getDailyTurnover", {
           params: {
             adminId: this.$getUser.userId
           }
         });
-        if (data.data.status == 401) {
-          this.$Message.error(data.data.text);
-          localStorage.clear();
-          this.$router.push("/login");
-        }
+        this.$logout(data.status, data.text);
         var list = [];
         this.dailyTurnover = [];
         this.dailyTurnoverPie = [];
-        for (let i = 0; i < data.data.length; i++) {
-          list.push(data.data[i]._id.day);
+        for (let i = 0; i < data.length; i++) {
+          list.push(data[i]._id.day);
         }
         for (let j = 0; j < this.sevenDays.length; j++) {
           if (list.indexOf(this.sevenDays[j]) == -1) {
@@ -110,10 +106,10 @@ export default {
             this.dailyTurnoverPie.push(str);
           } else {
             this.dailyTurnover.push(
-              data.data[list.indexOf(this.sevenDays[j])].count
+              data[list.indexOf(this.sevenDays[j])].count
             );
             var str = {};
-            str.value = data.data[list.indexOf(this.sevenDays[j])].count;
+            str.value = data[list.indexOf(this.sevenDays[j])].count;
             str.name = this.sevenDays[j] + "号";
             this.dailyTurnoverPie.push(str);
           }
@@ -127,21 +123,17 @@ export default {
     //获取过去12个月交易额
     async getMonthlyTransaction() {
       try {
-        let data = await this.$http.get("api/admin/getMonthlyTransaction", {
+        let { data } = await this.$http.get("api/admin/getMonthlyTransaction", {
           params: {
             adminId: this.$getUser.userId
           }
         });
-        if (data.data.status == 401) {
-          this.$Message.error(data.data.text);
-          localStorage.clear();
-          this.$router.push("/login");
-        }
+        this.$logout(data.status, data.text);
         var list = [];
         this.monthlyTransaction = [];
         this.monthlyTransactionPie = [];
-        for (let i = 0; i < data.data.length; i++) {
-          list.push(data.data[i]._id.month);
+        for (let i = 0; i < data.length; i++) {
+          list.push(data[i]._id.month);
         }
         for (let j = 0; j < this.twelveMonths.length; j++) {
           if (list.indexOf(this.twelveMonths[j]) == -1) {
@@ -152,10 +144,10 @@ export default {
             this.monthlyTransactionPie.push(str);
           } else {
             this.monthlyTransaction.push(
-              data.data[list.indexOf(this.twelveMonths[j])].count
+              data[list.indexOf(this.twelveMonths[j])].count
             );
             var str = {};
-            str.value = data.data[list.indexOf(this.twelveMonths[j])].count;
+            str.value = data[list.indexOf(this.twelveMonths[j])].count;
             str.name = this.twelveMonths[j] + "月";
             this.monthlyTransactionPie.push(str);
           }
@@ -169,21 +161,17 @@ export default {
     //获取过去七日交易数
     async getDailyTradingVolume() {
       try {
-        let data = await this.$http.get("api/admin/getDailyTradingVolume", {
+        let { data } = await this.$http.get("api/admin/getDailyTradingVolume", {
           params: {
             adminId: this.$getUser.userId
           }
         });
-        if (data.data.status == 401) {
-          this.$Message.error(data.data.text);
-          localStorage.clear();
-          this.$router.push("/login");
-        }
+        this.$logout(data.status, data.text);
         var list = [];
         this.dailyTradingVolume = [];
         this.dailyTradingVolumePie = [];
-        for (let i = 0; i < data.data.length; i++) {
-          list.push(data.data[i]._id.day);
+        for (let i = 0; i < data.length; i++) {
+          list.push(data[i]._id.day);
         }
         for (let j = 0; j < this.sevenDays.length; j++) {
           if (list.indexOf(this.sevenDays[j]) == -1) {
@@ -194,10 +182,10 @@ export default {
             this.dailyTradingVolumePie.push(str);
           } else {
             this.dailyTradingVolume.push(
-              data.data[list.indexOf(this.sevenDays[j])].count
+              data[list.indexOf(this.sevenDays[j])].count
             );
             var str = {};
-            str.value = data.data[list.indexOf(this.sevenDays[j])].count;
+            str.value = data[list.indexOf(this.sevenDays[j])].count;
             str.name = this.sevenDays[j] + "号";
             this.dailyTradingVolumePie.push(str);
           }
@@ -211,21 +199,20 @@ export default {
     //获取过去12个月交易数
     async getMonthlyTradingVolume() {
       try {
-        let data = await this.$http.get("api/admin/getMonthlyTradingVolume", {
-          params: {
-            adminId: this.$getUser.userId
+        let { data } = await this.$http.get(
+          "api/admin/getMonthlyTradingVolume",
+          {
+            params: {
+              adminId: this.$getUser.userId
+            }
           }
-        });
-        if (data.data.status == 401) {
-          this.$Message.error(data.data.text);
-          localStorage.clear();
-          this.$router.push("/login");
-        }
+        );
+        this.$logout(data.status, data.text);
         var list = [];
         this.monthlyTradingVolume = [];
         this.monthlyTradingVolumePie = [];
-        for (let i = 0; i < data.data.length; i++) {
-          list.push(data.data[i]._id.month);
+        for (let i = 0; i < data.length; i++) {
+          list.push(data[i]._id.month);
         }
         for (let j = 0; j < this.twelveMonths.length; j++) {
           if (list.indexOf(this.twelveMonths[j]) == -1) {
@@ -236,10 +223,10 @@ export default {
             this.monthlyTradingVolumePie.push(str);
           } else {
             this.monthlyTradingVolume.push(
-              data.data[list.indexOf(this.twelveMonths[j])].count
+              data[list.indexOf(this.twelveMonths[j])].count
             );
             var str = {};
-            str.value = data.data[list.indexOf(this.twelveMonths[j])].count;
+            str.value = data[list.indexOf(this.twelveMonths[j])].count;
             str.name = this.twelveMonths[j] + "月";
             this.monthlyTradingVolumePie.push(str);
           }

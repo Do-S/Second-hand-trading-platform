@@ -163,11 +163,7 @@ export default {
             adminId: this.$getUser.userId
           }
         });
-        if (data.status == 401) {
-          this.$Message.error(data.text);
-          localStorage.clear();
-          this.$router.push("/login");
-        }
+        this.$logout(data.status, data.text);
         this.adminList = data;
       } catch (error) {
         console.error(error);
@@ -198,16 +194,11 @@ export default {
         });
         this.password = "";
         this.getAdminCode();
+        this.$logout(data.status, data.text);
         if (data.status == 200) {
           this.$Message.success(data.text);
         } else {
-          if (data.status == 401) {
-            this.$Message.error(data.text);
-            localStorage.clear();
-            this.$router.push("/login");
-          } else {
-            this.$Message.error(data.text);
-          }
+          this.$Message.error(data.text);
         }
       } catch (error) {
         console.error(error);
@@ -224,18 +215,12 @@ export default {
         this.unUsedCode = "";
         this.getAdminCode();
         this.modal_two = false;
+        this.$logout(data.status, data.text);
         if (data.status == 200) {
           this.$Message.success(data.text);
         } else {
-          if (data.status == 401) {
-            this.$Message.error(data.text);
-            localStorage.clear();
-            this.$router.push("/login");
-          } else {
-            this.$Message.error(data.text);
-          }
+          this.$Message.error(data.text);
         }
-        this.getAdminCode();
       } catch (error) {
         console.error(error);
       }
@@ -254,17 +239,12 @@ export default {
         this.password = "";
         this.usedCode = "";
         this.usedUserId = "";
+        this.$logout(data.status, data.text);
         this.getAdminCode();
         if (data.status == 200) {
           this.$Message.success(data.text);
         } else {
-          if (data.status == 401) {
-            this.$Message.error(data.text);
-            localStorage.clear();
-            this.$router.push("/login");
-          } else {
-            this.$Message.error(data.text);
-          }
+          this.$Message.error(data.text);
         }
       } catch (error) {
         console.error(error);
@@ -310,17 +290,12 @@ export default {
           }
         });
         this.password = "";
+        this.$logout(data.status, data.text);
         this.getAdminCode();
         if (data.status == 200) {
           this.$Message.success(data.text);
         } else {
-          if (data.status == 401) {
-            this.$Message.error(data.text);
-            localStorage.clear();
-            this.$router.push("/login");
-          } else {
-            this.$Message.error(data.text);
-          }
+          this.$Message.error(data.text);
         }
       } catch (error) {
         console.error(error);

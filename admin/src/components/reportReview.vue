@@ -96,17 +96,13 @@ export default {
   methods: {
     async getReport() {
       try {
-        let data = await this.$http.get("/api/admin/getReport", {
+        let { data } = await this.$http.get("/api/admin/getReport", {
           params: {
             adminId: this.$getUser.userId
           }
         });
-        if (data.data.status == 401) {
-          this.$Message.error(data.data.text);
-          localStorage.clear();
-          this.$router.push("/login");
-        }
-        this.reportList = data.data;
+        this.$logout(data.status, data.text);
+        this.reportList = data;
       } catch (error) {
         console.error(error);
       }
@@ -114,23 +110,18 @@ export default {
     async handleReport() {
       try {
         this.modal1 = false;
-        let data = await this.$http.get("/api/admin/delReportByGoodsId", {
+        let { data } = await this.$http.get("/api/admin/delReportByGoodsId", {
           params: {
             goodsId: this.delGoodsId,
             adminId: this.$getUser.userId
           }
         });
-        if (data.data.status == 200) {
+        this.$logout(data.status, data.text);
+        if (data.status == 200) {
           this.getReport();
-          this.$Message.success(data.data.text);
+          this.$Message.success(data.text);
         } else {
-          if (data.data.status == 401) {
-            this.$Message.error(data.data.text);
-            localStorage.clear();
-            this.$router.push("/login");
-          } else {
-            this.$Message.error(data.data.text);
-          }
+          this.$Message.error(data.text);
         }
       } catch (error) {
         console.error(error);
@@ -139,23 +130,18 @@ export default {
     async submit() {
       try {
         this.modal = false;
-        let data = await this.$http.get("/api/delGoodsById", {
+        let { data } = await this.$http.get("/api/delGoodsById", {
           params: {
             goodsId: this.delGoodsId,
             adminId: this.$getUser.userId
           }
         });
-        if (data.data.status == 200) {
+        this.$logout(data.status, data.text);
+        if (data.status == 200) {
           this.getReport();
-          this.$Message.success(data.data.text);
+          this.$Message.success(data.text);
         } else {
-          if (data.data.status == 401) {
-            this.$Message.error(data.data.text);
-            localStorage.clear();
-            this.$router.push("/login");
-          } else {
-            this.$Message.error(data.data.text);
-          }
+          this.$Message.error(data.text);
         }
       } catch (error) {
         console.error(error);
