@@ -13,7 +13,9 @@
             <div class="pendingList" v-for="(item,index) in reportList" :key="index">
               <div class="head">
                 <div class="title">
-                  <img :src="item.img[0].url" alt />
+                  <div class="img">
+                    <img :src="item.img[0].url" alt />
+                  </div>
                   <span>{{item.goods.goodsName}}</span>
                 </div>
                 <div class="center">
@@ -150,6 +152,7 @@ export default {
   }
 };
 </script>
+
 <style lang="scss" scoped>
 #reportReview {
   width: 100%;

@@ -773,6 +773,7 @@ exports.getReport = function (callback) {
                 count: { $sum: 1 }
             }
         },
+        { $sort: { "count": -1 } },
         {
             $lookup:
             {
