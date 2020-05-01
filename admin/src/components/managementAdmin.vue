@@ -7,7 +7,6 @@
           <p style="margin-bottom:20px">请输入密码：</p>
           <Input
             type="password"
-            password
             prefix="ios-lock-outline"
             v-model="password"
             placeholder="请输入密码..."
@@ -150,7 +149,6 @@
                   <p style="margin-bottom:20px">请输入密码：</p>
                   <Input
                     type="password"
-                    password
                     prefix="ios-lock-outline"
                     v-model="password"
                     placeholder="请输入密码..."
@@ -288,7 +286,6 @@ export default {
                 value: this.password,
                 type: "password",
                 prefix: "ios-lock-outline",
-                password: true,
                 autofocus: true,
                 placeholder: "请输入密码..."
               },
