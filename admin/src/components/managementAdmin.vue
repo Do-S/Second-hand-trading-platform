@@ -3,13 +3,16 @@
     <div class="admin">
       <div class="produceCode">
         <Button type="success" @click="modal=true">生成授权码</Button>
-        <!-- <Modal v-model="modal" title="申请授权码" @on-ok="ok">
-          <p style="margin-bottom:20px">请输入密码：</p>
-          <Input v-model="password" placeholder="请输入密码..." style="width: 300px" />
-        </Modal>-->
         <Drawer title="申请授权码" v-model="modal" width="350">
           <p style="margin-bottom:20px">请输入密码：</p>
-          <Input v-model="password" placeholder="请输入密码..." style="width: 300px" />
+          <Input
+            type="password"
+            password
+            prefix="ios-lock-outline"
+            v-model="password"
+            placeholder="请输入密码..."
+            style="width: 300px"
+          />
           <div class="demo-drawer-footer">
             <Button style="margin-right: 8px" @click="modal = false">取消</Button>
             <Button type="primary" @click="applyAdminCode">提交</Button>
@@ -145,7 +148,14 @@
                 >删除</Button>
                 <Modal v-model="modal_one" title="删除授权码" @on-ok="ok_one">
                   <p style="margin-bottom:20px">请输入密码：</p>
-                  <Input v-model="password" placeholder="请输入密码..." style="width: 300px" />
+                  <Input
+                    type="password"
+                    password
+                    prefix="ios-lock-outline"
+                    v-model="password"
+                    placeholder="请输入密码..."
+                    style="width: 300px"
+                  />
                 </Modal>
               </div>
             </div>
@@ -276,6 +286,9 @@ export default {
             return h("Input", {
               props: {
                 value: this.password,
+                type: "password",
+                prefix: "ios-lock-outline",
+                password: true,
                 autofocus: true,
                 placeholder: "请输入密码..."
               },
