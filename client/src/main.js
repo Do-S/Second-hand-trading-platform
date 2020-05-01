@@ -8,7 +8,6 @@ import './plugins/jsencryptKey'
 import './plugins/ViewUI';
 import './assets/font/font.css'
 
-
 Vue.config.productionTip = false
 Vue.prototype.$http = axios;
 Vue.prototype.$moment = moment;

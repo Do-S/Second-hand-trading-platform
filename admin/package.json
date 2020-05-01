@@ -19,6 +19,7 @@
     "moment": "^2.24.0",
     "view-design": "^4.1.2",
     "vue": "^2.6.11",
+    "vue-clipboard2": "^0.3.1",
     "vue-router": "^3.1.5",
     "xlsx": "^0.15.5"
   },

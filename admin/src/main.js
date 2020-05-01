@@ -3,11 +3,14 @@ import App from './App.vue'
 import router from './router'
 import axios from './plugins/axios'
 import moment from 'moment'
+import VueClipboard from 'vue-clipboard2'
 import 'moment/locale/zh-cn'
 import 'view-design/dist/styles/iview.css';
 import './plugins/jsencryptKey'
 import './plugins/ViewUI';
 import './assets/font/font.css'
+
+Vue.use(VueClipboard)
 
 Vue.config.productionTip = false
 Vue.prototype.$http = axios;

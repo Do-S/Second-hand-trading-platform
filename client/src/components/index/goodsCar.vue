@@ -49,7 +49,11 @@
             <span>￥{{item.goods.price}}</span>
           </div>
           <div class="goodsOp goodsCard">
-            <Button type="warning" @click="()=>{modal_one=true;delGoodsId=item.goods._id}">删除</Button>
+            <Button
+              type="error"
+              size="small"
+              @click="()=>{modal_one=true;delGoodsId=item.goods._id}"
+            >删除</Button>
           </div>
           <Modal v-model="modal_one" width="360">
             <p slot="header" style="color:#f60;text-align:center">

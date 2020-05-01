@@ -22,7 +22,8 @@ import {
     Card,
     Select,
     Option,
-    Switch
+    Switch,
+    Drawer
 } from 'view-design';
 
 Vue.component('Button', Button);
@@ -46,6 +47,7 @@ Vue.component('Card', Card);
 Vue.component('Select', Select);
 Vue.component('Option', Option);
 Vue.component('i-switch', Switch);
+Vue.component('Drawer', Drawer);
 Vue.prototype.$Message = Message;
 Vue.prototype.$Notice = Notice;
 Vue.prototype.$Modal = Modal;

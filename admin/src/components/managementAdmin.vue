@@ -3,10 +3,18 @@
     <div class="admin">
       <div class="produceCode">
         <Button type="success" @click="modal=true">生成授权码</Button>
-        <Modal v-model="modal" title="申请授权码" @on-ok="ok">
+        <!-- <Modal v-model="modal" title="申请授权码" @on-ok="ok">
           <p style="margin-bottom:20px">请输入密码：</p>
           <Input v-model="password" placeholder="请输入密码..." style="width: 300px" />
-        </Modal>
+        </Modal>-->
+        <Drawer title="申请授权码" v-model="modal" width="350">
+          <p style="margin-bottom:20px">请输入密码：</p>
+          <Input v-model="password" placeholder="请输入密码..." style="width: 300px" />
+          <div class="demo-drawer-footer">
+            <Button style="margin-right: 8px" @click="modal = false">取消</Button>
+            <Button type="primary" @click="applyAdminCode">提交</Button>
+          </div>
+        </Drawer>
       </div>
       <div class="unused">
         <div class="title">
@@ -27,7 +35,13 @@
           <div class="cBody">
             <div class="cList" v-for="(item,index) in adminList" :key="index" v-if="item.status==0">
               <div class="cCode cSame">
-                <span v-if="item.__v!=0">{{item.adminCode}}</span>
+                <span
+                  v-if="item.__v!=0"
+                  style="cursor: pointer;"
+                  v-clipboard:copy="item.adminCode"
+                  v-clipboard:success="onCopy"
+                  v-clipboard:error="onError"
+                >{{item.adminCode}}</span>
                 <span v-else>*************************</span>
                 <Icon
                   @click="()=>{adminList[index].__v = 0}"
@@ -87,7 +101,13 @@
           <div class="cBody">
             <div class="cList" v-for="(item,index) in adminList" v-if="item.status==1">
               <div class="cCode cSame">
-                <span v-if="item.__v!=0">{{item.adminCode}}</span>
+                <span
+                  style="cursor: pointer;"
+                  v-if="item.__v!=0"
+                  v-clipboard:copy="item.adminCode"
+                  v-clipboard:success="onCopy"
+                  v-clipboard:error="onError"
+                >{{item.adminCode}}</span>
                 <span v-else>*************************</span>
                 <Icon
                   @click="()=>{adminList[index].__v = 0}"
@@ -169,13 +189,6 @@ export default {
         console.error(error);
       }
     },
-    ok() {
-      if (this.password == "") {
-        this.$Message.error("请输入密码");
-      } else {
-        this.applyAdminCode();
-      }
-    },
     ok_one() {
       if (this.password == "") {
         this.$Message.error("请输入密码");
@@ -185,6 +198,11 @@ export default {
     },
     async applyAdminCode() {
       try {
+        if (this.password == "") {
+          this.$Message.error("请输入密码");
+          return;
+        }
+        this.modal = false;
         let key = await this.$getKey();
         let { data } = await this.$http.get("/api/admin/applyAdminCode", {
           params: {
@@ -300,6 +318,12 @@ export default {
       } catch (error) {
         console.error(error);
       }
+    },
+    onCopy() {
+      this.$Message.success("复制成功");
+    },
+    onError() {
+      this.$Message.error("复制失败");
     }
   }
 };
@@ -381,9 +405,11 @@ export default {
             width: 100%;
             display: flex;
             .cSame {
-              line-height: 40px;
+              height: 40px;
               color: #515a6e;
               font-size: 14px;
+              display: flex;
+              align-items: center;
             }
 
             .cCode {
@@ -391,9 +417,7 @@ export default {
               padding-left: 15px;
               padding-right: 15px;
               border: 1px solid #e8eaec;
-              display: flex;
               justify-content: space-between;
-              align-items: center;
             }
             .cDate {
               width: 40%;
@@ -403,7 +427,7 @@ export default {
             }
             .cOperate {
               width: 20%;
-              text-align: center;
+              justify-content: center;
               border: 1px solid #e8eaec;
             }
           }
@@ -471,9 +495,11 @@ export default {
             width: 100%;
             display: flex;
             .cSame {
-              line-height: 40px;
+              height: 40px;
               color: #515a6e;
               font-size: 14px;
+              display: flex;
+              align-items: center;
             }
 
             .cCode {
@@ -481,9 +507,7 @@ export default {
               padding-left: 15px;
               padding-right: 15px;
               border: 1px solid #e8eaec;
-              display: flex;
               justify-content: space-between;
-              align-items: center;
             }
             .cDate {
               width: 18%;
@@ -504,7 +528,7 @@ export default {
             }
             .cOperate {
               width: 16%;
-              text-align: center;
+              justify-content: center;
               border: 1px solid #e8eaec;
             }
           }
@@ -512,5 +536,15 @@ export default {
       }
     }
   }
+}
+.demo-drawer-footer {
+  width: 100%;
+  position: absolute;
+  bottom: 0;
+  left: 0;
+  border-top: 1px solid #e8e8e8;
+  padding: 15px 16px;
+  text-align: right;
+  background: #fff;
 }
 </style>
