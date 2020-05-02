@@ -7,7 +7,6 @@
         <Input
           v-model="password"
           type="password"
-          password
           placeholder="输入原密码"
           style="width: 250px"
         />
