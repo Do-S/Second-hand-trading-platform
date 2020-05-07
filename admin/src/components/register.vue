@@ -18,14 +18,17 @@
           </Input>
         </FormItem>
         <FormItem prop="adminCode">
-          <Input
-            type="text"
-            v-model="formInline.adminCode"
-            placeholder="adminCode"
-            style="width:300px"
-          >
+          <Input type="text" v-model="formInline.adminCode" placeholder="adminCode">
             <Icon type="ios-key-outline" slot="prepend"></Icon>
           </Input>
+        </FormItem>
+        <FormItem prop="code">
+          <div class="code">
+            <Input style="width:150px" type="text" size="large" v-model="formInline.code">
+              <Icon type="md-key" slot="prepend"></Icon>
+            </Input>
+            <div @click="getCode" v-html="img"></div>
+          </div>
         </FormItem>
         <FormItem style="display:flex;justify-content: space-around;">
           <router-link :to="{ name: 'login'}">
@@ -61,11 +64,25 @@ export default {
         callback();
       }
     };
+    const validateCode = (rule, value, callback) => {
+      if (!value) {
+        return callback(new Error("验证码不能为空"));
+      }
+      // 模拟异步验证效果
+      setTimeout(() => {
+        if (value == this.imgCode) {
+          callback();
+        } else {
+          callback(new Error("验证码不正确！"));
+        }
+      }, 100);
+    };
     return {
       formInline: {
         user: "",
         password: "",
         oncePassword: "",
+        code: "",
         adminCode: ""
       },
       ruleInline: {
@@ -88,12 +105,27 @@ export default {
             message: "请输入授权码",
             trigger: "blur"
           }
-        ]
-      }
+        ],
+        code: [{ required: true, validator: validateCode, trigger: "blur" }]
+      },
+      img: "",
+      imgCode: ""
     };
   },
-  created() {},
+  created() {
+    this.getCode();
+  },
   methods: {
+    //获取图片验证码
+    async getCode() {
+      try {
+        let { data } = await this.$http.get("/api/user/getCode");
+        this.img = data.test;
+        this.imgCode = document.cookie.split("=")[1];
+      } catch (error) {
+        console.error(error);
+      }
+    },
     async register() {
       try {
         //获取公钥
@@ -142,14 +174,18 @@ export default {
   background-color: #f7f9fa;
   .content {
     width: 30%;
-    // height: 30%;
     padding-top: 30px;
-    background-color: rgba(255, 255, 255, 0.8);
+    background-color: rgba(255, 255, 255, 1);
     display: flex;
     flex-wrap: wrap;
     justify-content: center;
     align-items: center;
     border-radius: 5px;
+    .code {
+      display: flex;
+      flex-direction: row;
+      justify-content: flex-start;
+    }
   }
 }
 </style>

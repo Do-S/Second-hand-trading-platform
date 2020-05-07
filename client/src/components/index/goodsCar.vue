@@ -190,6 +190,7 @@ export default {
     //批量删除商品
     async delCarByIdList() {
       try {
+        this.modal_two = false;
         if (this.carIdList.length > 0) {
           let data = await this.$http.get("/api/delCarByIdList", {
             params: {
@@ -197,7 +198,6 @@ export default {
               userId: this.$getUser.userId
             }
           });
-          this.modal_two = false;
           if (data.data.status == 200) {
             this.$Message.success(data.data.text);
             this.getCarData();

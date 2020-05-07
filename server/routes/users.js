@@ -5,6 +5,7 @@ var fs = require('fs');
 var user = require('../service/user');
 var jwt = require('jsonwebtoken');
 var svgCaptcha = require('svg-captcha');
+const key = require('../public/key/mailKey.json')
 const NodeRSA = require('node-rsa')
 var publicKey = fs.readFileSync(path.join(__dirname, '../public/key/pub.key')).toString();
 var privateKey = fs.readFileSync(path.join(__dirname, '../public/key/pri.key')).toString();
@@ -31,7 +32,6 @@ router.post('/login', function (req, res, next) {
           "token": 'Bearer' + ' ' + token,
           "status": 200,
           "userId": result._id
-          // pubKey.encrypt(result._id, 'base64')
         }
         req.session.name = usermail;
         res.json(data);
@@ -126,9 +126,9 @@ router.get('/mail', function (req, res, next) {
   }
   var mail = {
     // 发件人
-    from: '<3207332581@qq.com>',
+    from: key.mail,
     //抄送
-    cc: '3207332581@qq.com',
+    cc: key.mail,
     // 收件人
     to: getMail,//前台传过来的邮箱
     // 主题

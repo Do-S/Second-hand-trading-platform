@@ -29,13 +29,14 @@
             </div>
             <div class="tDate tSame">
               <span>申请时间</span>
+              <Icon @click="sortUnusedDate=!sortUnusedDate" type="ios-funnel" />
             </div>
             <div class="tOperate tSame">
               <span>操作</span>
             </div>
           </div>
           <div class="cBody">
-            <div class="cList" v-for="(item,index) in adminList" :key="index" v-if="item.status==0">
+            <div class="cList" v-for="(item,index) in adminUnused" :key="index">
               <div class="cCode cSame">
                 <span
                   v-if="item.__v!=0"
@@ -46,11 +47,11 @@
                 >{{item.adminCode}}</span>
                 <span v-else>*************************</span>
                 <Icon
-                  @click="()=>{adminList[index].__v = 0}"
+                  @click="()=>{adminUnused[index].__v = 0}"
                   v-if="item.__v!=0"
                   type="ios-eye-outline"
                 />
-                <Icon @click="()=>{adminList[index].__v = 1}" v-else type="ios-eye-off-outline" />
+                <Icon @click="()=>{adminUnused[index].__v = 1}" v-else type="ios-eye-off-outline" />
               </div>
               <div class="cDate cSame">
                 <span>{{item.date|dateformat()}}</span>
@@ -89,19 +90,21 @@
             </div>
             <div class="tDate tSame">
               <span>申请时间</span>
+              <Icon @click="()=>{sortRegDate=false;sortUsedDate=!sortUsedDate}" type="ios-funnel" />
             </div>
             <div class="tUser tSame">
               <span>注册人</span>
             </div>
             <div class="tUserDate tSame">
               <span>注册时间</span>
+              <Icon @click="()=>{sortRegDate=true;sortUsedDate=!sortUsedDate}" type="ios-funnel" />
             </div>
             <div class="tOperate tSame">
               <span>操作</span>
             </div>
           </div>
           <div class="cBody">
-            <div class="cList" v-for="(item,index) in adminList" v-if="item.status==1">
+            <div class="cList" v-for="(item,index) in adminUsed">
               <div class="cCode cSame">
                 <span
                   style="cursor: pointer;"
@@ -112,11 +115,11 @@
                 >{{item.adminCode}}</span>
                 <span v-else>*************************</span>
                 <Icon
-                  @click="()=>{adminList[index].__v = 0}"
+                  @click="()=>{adminUsed[index].__v = 0}"
                   v-if="item.__v!=0"
                   type="ios-eye-outline"
                 />
-                <Icon @click="()=>{adminList[index].__v = 1}" v-else type="ios-eye-off-outline" />
+                <Icon @click="()=>{adminUsed[index].__v = 1}" v-else type="ios-eye-off-outline" />
               </div>
               <div class="cDate cSame">
                 <span>{{item.date|dateformat()}}</span>
@@ -125,10 +128,12 @@
                 <span>{{item.admin[0].user}}</span>
               </div>
               <div class="cUserDate cSame">
-                <span>{{item.userDate|dateformat()}}</span>
+                <span>{{item.admin[0].date|dateformat()}}</span>
               </div>
               <div class="cOperate cSame">
+                <i-switch v-if="item.admin[0].status==1" style="margin-right:20px" disabled />
                 <i-switch
+                  v-else
                   style="margin-right:20px"
                   :before-change="changeAdminStatus"
                   true-color="#13ce66"
@@ -177,11 +182,33 @@ export default {
       password: "",
       unUsedCode: "",
       usedCode: "",
-      usedUserId: ""
+      usedUserId: "",
+      sortRegDate: true,
+      sortUsedDate: false,
+      sortUnusedDate: false
     };
   },
   created() {
     this.getAdminCode();
+  },
+  computed: {
+    adminUsed() {
+      let _this = this;
+      return this.changeUsedDate(
+        _this.adminList.filter(function(item) {
+          return item.status == 1;
+        }),
+        "date"
+      );
+    },
+    adminUnused() {
+      return this.changeUnusedDate(
+        this.adminList.filter(function(item) {
+          return item.status == 0;
+        }),
+        "date"
+      );
+    }
   },
   methods: {
     async getAdminCode() {
@@ -196,6 +223,33 @@ export default {
       } catch (error) {
         console.error(error);
       }
+    },
+    changeUsedDate(array, key) {
+      let _this = this;
+      return array.sort(function(a, b) {
+        if (_this.sortRegDate) {
+          var x = a.admin[0][key];
+          var y = b.admin[0][key];
+        } else {
+          var x = a[key];
+          var y = b[key];
+        }
+        if (_this.sortUsedDate) {
+          return x < y ? -1 : x > y ? 1 : 0;
+        }
+        return x > y ? -1 : x < y ? 1 : 0;
+      });
+    },
+    changeUnusedDate(array, key) {
+      let _this = this;
+      return array.sort(function(a, b) {
+        var x = a[key];
+        var y = b[key];
+        if (_this.sortUnusedDate) {
+          return x < y ? -1 : x > y ? 1 : 0;
+        }
+        return x > y ? -1 : x < y ? 1 : 0;
+      });
     },
     ok_one() {
       if (this.password == "") {

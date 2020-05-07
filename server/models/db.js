@@ -69,7 +69,6 @@ const adminCodeSchema = new mongoose.Schema({
     adminCode: String,
     date: Date,
     adminId: String,
-    userDate: Date,
     status: {
         type: Number,
         default: 0

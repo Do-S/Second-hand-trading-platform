@@ -110,7 +110,8 @@ export default {
   .content {
     width: 30%;
     height: 30%;
-    background-color: rgba(255, 255, 255, 0.8);
+    padding-top: 25px;
+    background-color: rgba(255, 255, 255, 1);
     display: flex;
     flex-wrap: wrap;
     justify-content: center;
