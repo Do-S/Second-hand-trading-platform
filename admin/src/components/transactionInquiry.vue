@@ -149,12 +149,13 @@ export default {
             adminId: this.$getUser.userId
           }
         });
-        this.$logout(data.status, data.text);
+        console.log(data);
         if (!data) {
           this.$Message.error("卖家不存在");
           this.buyListBySeller = [];
           return;
         }
+        this.$logout(data.status, data.text);
         this.buyListBySeller = data;
         this.$Message.success("查询成功");
         this.setTableData(this.buyListBySeller);
