@@ -164,11 +164,11 @@ export default {
         display: flex;
         align-items: center;
         .goodsPic {
-          width: 80px;
-          height: 80px;
           a {
-            width: 100%;
-            height: 100%;
+            min-width: 80px;
+            max-width: 80px;
+            min-height: 80px;
+            max-height: 80px;
             display: inline-block;
             border: 1px dashed rgba(161, 79, 255, 0.5);
             img {

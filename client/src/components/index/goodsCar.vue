@@ -25,8 +25,8 @@
             <div class="check">
               <Checkbox :label="item.goods._id"></Checkbox>
             </div>
-            <div class="goodsPic">
-              <a @click="hrefDetail(item.goods._id)">
+            <div class="fitPic">
+              <a class="goodsPic" @click="hrefDetail(item.goods._id)">
                 <img :src="item.img[0].url" :alt="index" />
                 <div class="offGoods" v-if="item.goods.status == 0">
                   <Icon type="ios-alert-outline" color="red" size="30" />
@@ -353,33 +353,36 @@ export default {
             height: 20px;
             overflow: hidden;
           }
-          .goodsPic {
-            position: relative;
-            width: 100px;
-            height: 100px;
-            display: block;
+          .fitPic {
+            min-width: 100px;
             margin-left: 20px;
             margin-right: 20px;
-            .offGoods {
-              position: absolute;
-              left: 0;
-              top: 0;
+            .goodsPic {
+              position: relative;
               width: 100%;
-              height: 100%;
-              background-color: rgba(0, 0, 0, 0.6);
-              display: flex;
-              flex-direction: column;
-              justify-content: center;
-              align-items: center;
-              color: red;
-              font-size: 15px;
-            }
-            img {
-              width: 100%;
-              height: 100%;
-              position: absolute;
-              left: 0;
-              top: 0;
+              display: inline-block;
+              padding-bottom: 100%;
+              .offGoods {
+                position: absolute;
+                left: 0;
+                top: 0;
+                width: 100%;
+                height: 100%;
+                background-color: rgba(0, 0, 0, 0.6);
+                display: flex;
+                flex-direction: column;
+                justify-content: center;
+                align-items: center;
+                color: red;
+                font-size: 15px;
+              }
+              img {
+                width: 100%;
+                height: 100%;
+                position: absolute;
+                left: 0;
+                top: 0;
+              }
             }
           }
           .titleName {

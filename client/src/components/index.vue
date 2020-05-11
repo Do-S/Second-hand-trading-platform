@@ -150,30 +150,27 @@ export default {
     width: 75%;
     .lun {
       width: 100%;
-      height: 460px;
       margin-top: 10px;
       position: relative;
       overflow: hidden;
       .lun_ul {
         width: 100%;
-        height: 100%;
+        // height: 460px;
+        padding-bottom: 41.07%;
         .lun_li {
           width: 100%;
-          height: 100%;
           position: absolute;
           list-style: none;
           img {
             width: 100%;
-            height: 100%;
             border-radius: 5px;
           }
         }
       }
       .list_ul {
-        // width: 200px;
         height: 20px;
         position: absolute;
-        top: 400px;
+        top: 85%;
         right: 20px;
         display: flex;
         flex-direction: row;

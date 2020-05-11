@@ -309,6 +309,7 @@ export default {
   }
   .cart {
     width: 28%;
+    min-width: 400px;
     height: 50%;
     border-radius: 5px;
     background-color: #ffffff;
