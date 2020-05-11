@@ -4,6 +4,7 @@ import router from './router'
 import axios from './plugins/axios'
 import moment from 'moment'
 import VueClipboard from 'vue-clipboard2'
+import 'babel-polyfill'
 import 'moment/locale/zh-cn'
 import 'view-design/dist/styles/iview.css';
 import './plugins/jsencryptKey'

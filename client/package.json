@@ -9,6 +9,7 @@
   },
   "dependencies": {
     "axios": "^0.19.2",
+    "babel-polyfill": "^6.26.0",
     "core-js": "^3.4.4",
     "github-markdown-css": "^3.0.1",
     "highlight.js": "^9.18.1",

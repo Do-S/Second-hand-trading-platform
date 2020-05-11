@@ -3,6 +3,7 @@ import App from './App.vue'
 import router from './router'
 import axios from './plugins/axios'
 import moment from 'moment'
+import 'babel-polyfill'
 import 'view-design/dist/styles/iview.css';
 import './plugins/jsencryptKey'
 import './plugins/ViewUI';

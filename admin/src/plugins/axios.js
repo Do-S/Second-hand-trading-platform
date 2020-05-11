@@ -10,6 +10,7 @@ axios.interceptors.request.use(
             // 设置token
             config.headers.common['Authorization'] = data.token;
         }
+        config.headers.common['Cache-Control'] = 'no-cache';
         LoadingBar.start()
         return config;
     },
