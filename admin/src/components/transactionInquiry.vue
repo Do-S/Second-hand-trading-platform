@@ -282,8 +282,10 @@ export default {
           justify-content: flex-start;
           align-items: center;
           img {
-            width: 78px;
-            height: 78px;
+            min-width: 78px;
+            min-height: 78px;
+            max-width: 78px;
+            max-height: 78px;
             border: 1px dashed rgb(199, 164, 255);
           }
           span {
