@@ -1,6 +1,5 @@
 var express = require('express');
 var router = express.Router();
-const axios = require('axios');
 var path = require('path');
 var fs = require('fs');
 var user = require('../service/user');
@@ -136,9 +135,27 @@ router.post('/register', function (req, res, next) {
     })
 })
 
-//主页
-router.get('/getIndex', function (req, res, next) {
-    res.json({});
+//根据ip查询本地信息
+router.get('/getLocationByIp', function (req, res, next) {
+    let ip = req.headers['x-forwarded-for'] == '' ? req.headers['x-real-ip'] : req.headers['x-forwarded-for'];
+    goods.getLocationByIp(ip, function (result, err) {
+        res.json(result.data);
+    })
+})
+
+//根据地址码查询实时天气
+router.get('/getWeather', function (req, res, next) {
+    let adcode = req.query.adcode;
+    goods.getWeather(adcode, function (result, err) {
+        res.json(result.data);
+    })
+})
+
+//获取省份信息
+router.get('/getProvince', function (req, res, next) {
+    goods.getProvince(function (result, err) {
+        res.json(result.data);
+    })
 })
 
 //修改管理员密码

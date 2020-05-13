@@ -108,7 +108,6 @@
 
 <script>
 const jinrishici = require("jinrishici");
-import amapKey from "../assets/amapKey.json";
 export default {
   name: "homePage",
   data() {
@@ -123,7 +122,6 @@ export default {
     };
   },
   created() {
-    this.getIndex();
     this.getPoetry();
     this.getLocation();
   },
@@ -142,26 +140,15 @@ export default {
       this.$router.push("/login");
     },
 
-    async getIndex() {
+    //获取当前位置信息
+    async getLocation() {
       try {
-        let { data } = await this.$http.get("/api/admin/getIndex", {
+        let { data } = await this.$http.get("/api/admin/getLocationByIp", {
           params: {
             adminId: this.$getUser.userId
           }
         });
-        this.$logout(data.status, data.text);
-      } catch (error) {
-        console.error(error);
-      }
-    },
-
-    //获取当前位置信息
-    async getLocation() {
-      try {
-        let data = await this.$http.get(
-          "/web/ip?output=json&key=" + amapKey.key
-        );
-        this.localCity = data.data;
+        this.localCity = data;
         this.getWeather(this.localCity.adcode);
         this.getProvince();
       } catch (error) {
@@ -172,11 +159,14 @@ export default {
     //获取实时天气信息
     async getWeather(adcode) {
       try {
-        let data = await this.$http.get(
-          "/web/weather/weatherInfo?city=" + adcode + "&key=" + amapKey.key
-        );
-        if (data.data.infocode == 10000) {
-          this.weather = data.data.lives[0];
+        let { data } = await this.$http.get("/api/admin/getWeather", {
+          params: {
+            adminId: this.$getUser.userId,
+            adcode: adcode
+          }
+        });
+        if (data.infocode == 10000) {
+          this.weather = data.lives[0];
           switch (this.weather.weather) {
             case "晴":
               this.weatherLogo = require("@/assets/weather/sunny.png");
@@ -214,11 +204,13 @@ export default {
     //获取省份信息
     async getProvince() {
       try {
-        let data = await this.$http.get(
-          "/web/config/district?subdistrict=2&key=" + amapKey.key
-        );
-        if (data.data.infocode == 10000) {
-          this.cityList = data.data.districts[0].districts;
+        let { data } = await this.$http.get("/api/admin/getProvince", {
+          params: {
+            adminId: this.$getUser.userId
+          }
+        });
+        if (data.infocode == 10000) {
+          this.cityList = data.districts[0].districts;
           for (let i = 0; i < this.cityList.length; i++) {
             if (this.cityList[i].name == this.localCity.province) {
               this.province = i;

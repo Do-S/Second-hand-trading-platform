@@ -1,4 +1,6 @@
 var db = require('../models/db');
+var axios = require('axios');
+var amapKey = require("../public/key/amapKey.json");
 
 //添加商品
 exports.setGoods = function (commodityData, userId, callback) {
@@ -888,3 +890,36 @@ exports.delReportByGoodsId = function (goodsId, callback) {
         return callback(err);
     })
 }
+
+//获取客户端位置信息
+exports.getLocationByIp = function (ip, callback) {
+    axios.get('https://restapi.amap.com/v3/ip?ip=' + ip + '&output=json&key=' + amapKey.key)
+        .then(res => {
+            callback(res);
+        })
+        .catch(error => {
+            console.log(error);
+        });
+}
+
+//获取客户端位置信息
+exports.getWeather = function (adcode, callback) {
+    axios.get("https://restapi.amap.com/v3/weather/weatherInfo?city=" + adcode + "&key=" + amapKey.key)
+        .then(res => {
+            callback(res);
+        })
+        .catch(error => {
+            console.log(error);
+        });
+}
+
+//获取客户端位置信息
+exports.getProvince = function (callback) {
+    axios.get("https://restapi.amap.com/v3/config/district?subdistrict=2&key=" + amapKey.key)
+        .then(res => {
+            callback(res);
+        })
+        .catch(error => {
+            console.log(error);
+        });
+} 
