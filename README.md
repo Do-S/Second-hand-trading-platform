@@ -27,7 +27,7 @@
 - 订单图表 
 
 
-PS：由于使用到高德天气的接口和邮箱验证，所以需要在`Second-hand-trading-platform\admin\src\assets`下面添加一个`amapKey.json`文件、在`Second-hand-trading-platform\server\public\key`下面添加`mailKey.json`文件
+PS：由于使用到高德天气的接口和邮箱验证，所以需要在`Second-hand-trading-platform\server\public\key`下面添加`amapKey.json`和`mailKey.json`文件
 
 >amapKey.json
 ```
