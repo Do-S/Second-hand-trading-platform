@@ -1,5 +1,5 @@
 const mongoose = require('mongoose')
-
+var url = require('../public/url.json');
 mongoose.connect('mongodb://localhost:27017/mall')
 
 //用户
@@ -21,7 +21,7 @@ const userSchema = new mongoose.Schema({
     },
     avatar: {
         type: String,
-        default: 'http://localhost:3000/images/avatar/default.jpg'
+        default: url.url + '/images/avatar/default.jpg'
     },
     status: {
         type: Number,

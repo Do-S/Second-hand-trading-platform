@@ -6,9 +6,12 @@ var goods = require('../service/goods');
 var user = require('../service/user');
 var path = require('path');
 var fs = require('fs');
+var url = require('../public/url.json');
+
 var multer = require('multer');
 var upload = multer({ dest: './public/images/goodsImg' });
 var uploadAvatar = multer({ dest: './public/images/avatar' });
+
 const NodeRSA = require('node-rsa')
 var publicKey = fs.readFileSync(path.join(__dirname, '../public/key/pub.key')).toString();
 var privateKey = fs.readFileSync(path.join(__dirname, '../public/key/pri.key')).toString();
@@ -16,7 +19,6 @@ var priKey = new NodeRSA(privateKey);
 var pubKey = new NodeRSA(publicKey);
 priKey.setOptions({ encryptionScheme: 'pkcs1' });
 pubKey.setOptions({ encryptionScheme: 'pkcs1' })
-// toObject
 
 //添加商品
 router.post('/release', function (req, res, next) {
@@ -49,7 +51,7 @@ router.post('/uploadImg', upload.array("file"), function (req, res, next) {
       if (err) {
         throw err;
       }
-      goods.setGoodsImg(imgId, 'http://localhost:3000' + filePath, function (err) {
+      goods.setGoodsImg(imgId, url.url + filePath, function (err) {
         if (err) {
           const data = {
             text: imgName + "图片上传失败",
@@ -396,7 +398,7 @@ router.post('/loadAvatar', uploadAvatar.single("file"), function (req, res, next
     if (err) {
       throw err;
     }
-    user.updateAvatar(userId, 'http://localhost:3000' + filePath, function (err) {
+    user.updateAvatar(userId, url.url + filePath, function (err) {
       if (err) {
         const data = {
           text: "图片上传失败",
