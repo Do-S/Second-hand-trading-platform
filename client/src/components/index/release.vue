@@ -159,14 +159,18 @@ export default {
           ) {
             // 看支持不支持FileReader
             if (!e || !window.FileReader) return;
-            let reader = new FileReader();
-            reader.readAsDataURL(files);
-            reader.onloadend = function() {
-              let obj = {};
-              obj.url = this.result;
-              _this.imgUrl.push(obj);
-            };
-            this.uploadList.push(files);
+            if (files.size <= 1024 * 1024 * 2) {
+              let reader = new FileReader();
+              reader.readAsDataURL(files);
+              reader.onloadend = function() {
+                let obj = {};
+                obj.url = this.result;
+                _this.imgUrl.push(obj);
+              };
+              this.uploadList.push(files);
+            } else {
+              this.$Message.error("不可选择大小超过2M的图片");
+            }
           } else {
             this.$Notice.warning({
               title: "图片格式错误",
