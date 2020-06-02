@@ -264,7 +264,7 @@ export default {
         if (data.status) {
           if (data.status == 200) {
             this.$Message.success(data.text);
-            registerData = {
+            this.registerData = {
               mail: "",
               password: "",
               passwordCheck: "",
