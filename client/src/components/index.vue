@@ -42,6 +42,7 @@
         </div>
       </div>
     </div>
+    <Foot />
     <BackTop></BackTop>
   </div>
 </template>
@@ -49,12 +50,14 @@
 <script>
 import { setInterval, clearInterval } from "timers";
 import HeadTop from "./index/headTop";
+import Foot from "./index/foot";
 import Commodity from "./index/commodity";
 export default {
   name: "index",
   components: {
     HeadTop: HeadTop,
-    Commodity: Commodity
+    Commodity: Commodity,
+    Foot: Foot
   },
   data() {
     return {

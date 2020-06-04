@@ -103,11 +103,13 @@
         </div>
       </div>
     </div>
+    <Foot />
   </div>
 </template>
 
 <script>
 const jinrishici = require("jinrishici");
+import Foot from "./foot";
 export default {
   name: "homePage",
   data() {
@@ -120,6 +122,9 @@ export default {
       cityCode: 0,
       weatherLogo: ""
     };
+  },
+  components: {
+    Foot: Foot
   },
   created() {
     this.getPoetry();
